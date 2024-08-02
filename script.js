@@ -16,7 +16,7 @@ function generateKeys() {
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
-    courseLinks.forEach(link => {
+    courseLinks.forEach((link, courseIndex) => {
         const lessonId = extractLessonId(link);
 
         const keys = [
@@ -46,7 +46,7 @@ function generateKeys() {
 
             const description = document.createElement('input');
             description.type = 'text';
-            description.value = generateDescription(index, courseSlug, lessonId, moduleNames, moduleCount);
+            description.value = generateDescription(index, courseSlug, lessonId, moduleNames, courseIndex);
             description.readOnly = true;
 
             const copyTextButton = document.createElement('button');
@@ -75,7 +75,7 @@ function extractLessonId(link) {
     return match ? match[1] : '';
 }
 
-function generateDescription(index, courseSlug, lessonId, moduleNames, moduleCount) {
+function generateDescription(index, courseSlug, lessonId, moduleNames, moduleIndex) {
     const moduleImages = [
         'https://pictures.s3.yandex.net/resources/module_1_1703234174.svg',
         'https://pictures.s3.yandex.net/resources/module_2_1703234182.svg',
@@ -91,13 +91,13 @@ function generateDescription(index, courseSlug, lessonId, moduleNames, moduleCou
         case 1:
             return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${lessonId}`;
         case 2:
-            return `Лучше подтянуть: ${moduleNames[0]}`;
+            return `Лучше подтянуть: ${moduleNames[moduleIndex]}`;
         case 3:
-            return `Точно стоит подтянуть: ${moduleNames[0]}`;
+            return `Точно стоит подтянуть: ${moduleNames[moduleIndex]}`;
         case 4:
         case 5:
-            const moduleIndex = Math.min(moduleCount - 1, moduleImages.length - 1);
-            return moduleImages[moduleIndex];
+            const moduleImageIndex = moduleIndex < moduleImages.length ? moduleIndex : moduleImages.length - 1;
+            return moduleImages[moduleImageIndex];
         case 6:
         case 7:
             return '1';
