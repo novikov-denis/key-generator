@@ -19,7 +19,8 @@ function generateKeys() {
 
     courseLinks.forEach((link, index) => {
         const lessonId = extractLessonId(link);
-        const moduleLessonId = extractLessonId(lessonLinks[index]);
+        const moduleLessonLink = lessonLinks[index];
+        const moduleLessonId = extractLessonId(moduleLessonLink);
 
         const keys = [
             `assessmentsFeedback.assessment.${lessonId}.grade.average.recommendationCard.1.link`,
@@ -77,7 +78,7 @@ function extractLessonId(link) {
     return match ? match[1] : '';
 }
 
-function generateDescription(index, courseSlug, moduleLessonId, moduleName, moduleIndex) {
+function generateDescription(index, courseSlug, lessonId, moduleName, moduleIndex) {
     const moduleImages = [
         'https://pictures.s3.yandex.net/resources/module_1_1703234174.svg',
         'https://pictures.s3.yandex.net/resources/module_2_1703234182.svg',
@@ -91,7 +92,7 @@ function generateDescription(index, courseSlug, moduleLessonId, moduleName, modu
     switch (index) {
         case 0:
         case 1:
-            return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${moduleLessonId}`;
+            return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${lessonId}`;
         case 2:
             return `Лучше подтянуть: ${moduleName}`;
         case 3:
