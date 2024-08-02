@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F0F0F0;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #42A663;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+}
+
+.header-left {
+    font-size: 24px;
+}
+
+.header-right .button {
+    background-color: white;
+    color: #42A663;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.main {
+    padding: 20px;
+}
+
+.buttons button {
+    background-color: #42A663;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#assessment-fields input, #assessment-fields textarea {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#generated-keys .keys {
+    display: flex;
+    flex-direction: column;
+}
+
+.key-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.key-row .copy-button {
+    background-color: #42A663;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #42A663;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
