@@ -16,7 +16,7 @@ function generateKeys() {
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
-    courseLinks.forEach((link, courseIndex) => {
+    courseLinks.forEach((link, index) => {
         const lessonId = extractLessonId(link);
 
         const keys = [
@@ -30,7 +30,7 @@ function generateKeys() {
             `assessmentsFeedback.assessment.${lessonId}.grade.low.recommendationCards.count`
         ];
 
-        keys.forEach((key, index) => {
+        keys.forEach((key, keyIndex) => {
             const keyRow = document.createElement('div');
             keyRow.classList.add('key-row');
 
@@ -46,7 +46,7 @@ function generateKeys() {
 
             const description = document.createElement('input');
             description.type = 'text';
-            description.value = generateDescription(index, courseSlug, lessonId, moduleNames, courseIndex);
+            description.value = generateDescription(keyIndex, courseSlug, lessonId, moduleNames[index], index + 1);
             description.readOnly = true;
 
             const copyTextButton = document.createElement('button');
@@ -75,7 +75,7 @@ function extractLessonId(link) {
     return match ? match[1] : '';
 }
 
-function generateDescription(index, courseSlug, lessonId, moduleNames, moduleIndex) {
+function generateDescription(index, courseSlug, lessonId, moduleName, moduleIndex) {
     const moduleImages = [
         'https://pictures.s3.yandex.net/resources/module_1_1703234174.svg',
         'https://pictures.s3.yandex.net/resources/module_2_1703234182.svg',
@@ -91,13 +91,12 @@ function generateDescription(index, courseSlug, lessonId, moduleNames, moduleInd
         case 1:
             return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${lessonId}`;
         case 2:
-            return `Лучше подтянуть: ${moduleNames[moduleIndex]}`;
+            return `Лучше подтянуть: ${moduleName}`;
         case 3:
-            return `Точно стоит подтянуть: ${moduleNames[moduleIndex]}`;
+            return `Точно стоит подтянуть: ${moduleName}`;
         case 4:
         case 5:
-            const moduleImageIndex = moduleIndex < moduleImages.length ? moduleIndex : moduleImages.length - 1;
-            return moduleImages[moduleImageIndex];
+            return moduleImages[moduleIndex - 1];
         case 6:
         case 7:
             return '1';
