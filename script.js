@@ -79,30 +79,4 @@ function generateDescription(index, courseSlug, lessonId, moduleNames) {
             return `Точно стоит подтянуть: ${moduleNames[0]}`;
         case 4:
         case 5:
-            return `https://pictures.s3.yandex.net/resources/module_1_1703234174.svg`;
-        case 6:
-        case 7:
-            return '1';
-        default:
-            return '';
-    }
-}
-
-function copyToClipboard(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-
-    showNotification();
-}
-
-function showNotification() {
-    const notification = document.getElementById('notification');
-    notification.classList.remove('hidden');
-    setTimeout(() => {
-        notification.classList.add('hidden');
-    }, 2000);
-}
+            return `https://pictures.s3.yandex.net/resources/module_1_
