@@ -1,11 +1,22 @@
+@font-face {
+    font-family: 'YS Text';
+    src: url('YS Text-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Druk Wide';
+    src: url('Druk Wide Cyr Super.otf') format('opentype');
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'YS Text', Arial, sans-serif;
     background-color: #F0F0F0;
     margin: 0;
     padding: 0;
 }
 
 .header {
+    font-family: 'Druk Wide', Arial, sans-serif;
     background-color: #42A663;
     color: white;
     display: flex;
@@ -46,6 +57,7 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-family: 'YS Text', Arial, sans-serif;
 }
 
 #generated-keys .keys {
@@ -65,19 +77,12 @@ body {
 }
 
 .key-row input[type="text"] {
-    width: 60%;
+    width: 40%;
     font-size: 14px;
+    font-family: 'YS Text', Arial, sans-serif;
 }
 
-.key-row .copy-button {
-    background-color: #42A663;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
+.key-row .copy-button,
 .key-row .copy-text-button {
     background-color: #42A663;
     color: white;
@@ -85,6 +90,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 10px;
 }
 
 .hidden {
@@ -100,4 +106,5 @@ body {
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 14px;
+    font-family: 'YS Text', Arial, sans-serif;
 }
