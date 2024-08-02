@@ -20,7 +20,7 @@
         <div class="buttons">
             <button onclick="showAssessmentFields()">Ассессменты Грейда</button>
             <button onclick="showNotAvailable()">Попап</button>
-            <button onclick="showNotAvailable()">Статусы ревью</button>
+            <button onclick="showReviewStatusFields()">Статусы ревью</button>
             <button onclick="showNotAvailable()">Окно с результатами тестов</button>
         </div>
 
@@ -32,12 +32,21 @@
             <button onclick="generateKeys()">Сгенерировать ключики 🔑</button>
         </div>
 
+        <div id="review-status-fields" class="hidden">
+            <input type="text" id="profession-slug" placeholder="Введи слаг профессии">
+            <button onclick="generateReviewKeys()">Сгенерировать ключи 🔑</button>
+        </div>
+
         <div id="generated-keys" class="hidden">
             <div class="keys">
                 <!-- Generated keys will appear here -->
             </div>
         </div>
     </main>
+
+    <footer class="footer">
+        <h1 class="marquee"><span>Не забывай отписываться в канале #pranker, чтобы ключи проросли в production</span></h1>
+    </footer>
 
     <div id="notification" class="notification hidden"></div>
 
