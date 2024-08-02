@@ -2,6 +2,10 @@ function showAssessmentFields() {
     document.getElementById('assessment-fields').classList.remove('hidden');
 }
 
+function showNotAvailable() {
+    showNotification('Функция пока не доступна. В следующих обновлениях появится 😎', true);
+}
+
 function generateKeys() {
     const courseSlug = document.getElementById('course-slug').value;
     const moduleCount = parseInt(document.getElementById('module-count').value);
@@ -48,7 +52,10 @@ function generateKeys() {
             const copyTextButton = document.createElement('button');
             copyTextButton.classList.add('copy-text-button');
             copyTextButton.textContent = 'Скопировать текст ключа';
-            copyTextButton.onclick = () => copyToClipboard(description.value);
+            copyTextButton.onclick = () => {
+                copyToClipboard(description.value);
+                showNotification('Текст ключа успешно скопирован в буфер обмена');
+            };
 
             keyRow.appendChild(keyField);
             keyRow.appendChild(copyButton);
@@ -96,12 +103,14 @@ function copyToClipboard(text) {
     document.execCommand('copy');
     document.body.removeChild(textarea);
 
-    showNotification();
+    showNotification('Ключ успешно скопирован в буфер обмена');
 }
 
-function showNotification() {
+function showNotification(message, isError = false) {
     const notification = document.getElementById('notification');
+    notification.textContent = message;
     notification.classList.remove('hidden');
+    notification.classList.toggle('error', isError);
     setTimeout(() => {
         notification.classList.add('hidden');
     }, 2000);
