@@ -16,6 +16,11 @@ function generateKeys() {
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
+    if (!courseSlug || !moduleCount || courseLinks.length === 0 || moduleNames.length === 0) {
+        showNotification('Пожалуйста, заполните все поля.', true);
+        return;
+    }
+
     courseLinks.forEach((link, index) => {
         const lessonId = extractLessonId(link);
 
