@@ -19,9 +19,9 @@
     <main class="main">
         <div class="buttons">
             <button onclick="showAssessmentFields()">Ассессменты Грейда</button>
-            <button>Попап</button>
-            <button>Статусы ревью</button>
-            <button>Окно с результатами тестов</button>
+            <button onclick="showNotAvailable()">Попап</button>
+            <button onclick="showNotAvailable()">Статусы ревью</button>
+            <button onclick="showNotAvailable()">Окно с результатами тестов</button>
         </div>
 
         <div id="assessment-fields" class="hidden">
@@ -39,7 +39,7 @@
         </div>
     </main>
 
-    <div id="notification" class="notification hidden">Ключ успешно скопирован в буфер обмена</div>
+    <div id="notification" class="notification hidden"></div>
 
     <script src="script.js"></script>
 </body>
