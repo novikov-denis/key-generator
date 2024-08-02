@@ -58,6 +58,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-family: 'YS Text', Arial, sans-serif;
+    width: 100%;
 }
 
 #assessment-fields input, #assessment-fields textarea,
@@ -69,6 +70,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-family: 'YS Text', Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 #generated-keys .keys {
@@ -78,20 +80,22 @@ body {
 
 .key-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 10px;
     background-color: white;
     margin: 10px 0;
     border-radius: 5px;
     font-size: 14px;
     font-family: 'YS Text', Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 .key-row input[type="text"] {
-    width: 40%;
+    width: 100%;
     font-size: 14px;
     font-family: 'YS Text', Arial, sans-serif;
+    margin-bottom: 10px;
 }
 
 .key-row .copy-button,
@@ -102,7 +106,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 10px;
+    margin-bottom: 10px;
     font-family: 'YS Text', Arial, sans-serif;
 }
 
@@ -120,6 +124,7 @@ body {
     border-radius: 5px;
     font-size: 14px;
     font-family: 'YS Text', Arial, sans-serif;
+    z-index: 1000;
 }
 
 .notification.error {
@@ -144,9 +149,9 @@ body {
 .marquee span {
     display: inline-block;
     padding-left: 100%;
-    -webkit-animation: scroll 30s infinite linear;
-    -moz-animation: scroll 30s infinite linear;
-    animation: scroll 30s infinite linear;
+    -webkit-animation: scroll 20s infinite linear;
+    -moz-animation: scroll 20s infinite linear;
+    animation: scroll 20s infinite linear;
 }
 
 @-webkit-keyframes scroll {
@@ -156,7 +161,7 @@ body {
     }
     100% {
         -webkit-transform: translate(-100%, 0);
-        transform: translate(-100%, 0)
+        transform: translate(-100%, 0);
     }
 }
 
@@ -167,7 +172,7 @@ body {
     }
     100% {
         -moz-transform: translate(-100%, 0);
-        transform: translate(-100%, 0)
+        transform: translate(-100%, 0);
     }
 }
 
@@ -176,6 +181,30 @@ body {
         transform: translate(0, 0);
     }
     100% {
-        transform: translate(-100%, 0)
+        transform: translate(-100%, 0);
+    }
+}
+
+/* Media queries for responsive design */
+@media (min-width: 600px) {
+    .key-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .key-row input[type="text"] {
+        width: 40%;
+        margin-bottom: 0;
+    }
+
+    .key-row .copy-button,
+    .key-row .copy-text-button {
+        margin-bottom: 0;
+        margin-left: 10px;
+    }
+
+    .buttons button {
+        width: auto;
     }
 }
