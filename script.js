@@ -1,5 +1,11 @@
 function showAssessmentFields() {
     document.getElementById('assessment-fields').classList.remove('hidden');
+    document.getElementById('review-status-fields').classList.add('hidden');
+}
+
+function showReviewStatusFields() {
+    document.getElementById('review-status-fields').classList.remove('hidden');
+    document.getElementById('assessment-fields').classList.add('hidden');
 }
 
 function showNotAvailable() {
@@ -70,6 +76,56 @@ function generateKeys() {
             keysDiv.appendChild(keyRow);
         });
     });
+
+    keyContainer.classList.remove('hidden');
+}
+
+function generateReviewKeys() {
+    const professionSlug = document.getElementById('profession-slug').value;
+    const keyContainer = document.getElementById('generated-keys');
+    const keysDiv = keyContainer.querySelector('.keys');
+    keysDiv.innerHTML = '';
+
+    if (!professionSlug) {
+        showNotification('Пожалуйста, введите слаг профессии.', true);
+        return;
+    }
+
+    const key = `reviewStatus.${professionSlug}.reviewSLA`;
+    const description = 'В танкере укажите кол-во часов для проверки работы';
+
+    const keyRow = document.createElement('div');
+    keyRow.classList.add('key-row');
+
+    const keyField = document.createElement('input');
+    keyField.type = 'text';
+    keyField.value = key;
+    keyField.readOnly = true;
+
+    const copyButton = document.createElement('button');
+    copyButton.classList.add('copy-button');
+    copyButton.textContent = 'Скопировать ключ';
+    copyButton.onclick = () => copyToClipboard(key);
+
+    const descriptionField = document.createElement('input');
+    descriptionField.type = 'text';
+    descriptionField.value = description;
+    descriptionField.readOnly = true;
+
+    const copyTextButton = document.createElement('button');
+    copyTextButton.classList.add('copy-text-button');
+    copyTextButton.textContent = 'Скопировать текст ключа';
+    copyTextButton.onclick = () => {
+        copyToClipboard(description);
+        showNotification('Текст ключа успешно скопирован в буфер обмена');
+    };
+
+    keyRow.appendChild(keyField);
+    keyRow.appendChild(copyButton);
+    keyRow.appendChild(descriptionField);
+    keyRow.appendChild(copyTextButton);
+
+    keysDiv.appendChild(keyRow);
 
     keyContainer.classList.remove('hidden');
 }
