@@ -108,3 +108,7 @@ body {
     font-size: 14px;
     font-family: 'YS Text', Arial, sans-serif;
 }
+
+.notification.error {
+    background-color: #EB4E44;
+}
