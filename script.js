@@ -92,7 +92,7 @@ function generateDescription(index, courseSlug, moduleLessonId, moduleName, modu
     switch (index) {
         case 0:
         case 1:
-            return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${moduleLessonId}`;
+            return `Вручную возьми ссылку на урок с преста, куда должна вести рекомендация`;
         case 2:
             return `Лучше подтянуть: ${moduleName}`;
         case 3:
