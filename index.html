@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор ключей</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            Генератор ключей
+        </div>
+        <div class="header-right">
+            <a href="https://tanker.yandex-team.ru/" class="button">Бежим в Танкер</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="buttons">
+            <button onclick="showAssessmentFields()">Ассессменты Грейда</button>
+            <button>Попап</button>
+            <button>Статусы ревью</button>
+            <button>Окно с результатами тестов</button>
+        </div>
+
+        <div id="assessment-fields" class="hidden">
+            <input type="text" id="course-slug" placeholder="Укажи слаг курса">
+            <input type="number" id="module-count" placeholder="Укажи количество модулей курса">
+            <textarea id="course-links" placeholder="Вставь ссылку на ассессмент. Если их несколько, то каждую ссылку вставь с новой строки"></textarea>
+            <textarea id="module-names" placeholder="Укажи названия модулей курса. Каждый модуль нужно написать с новой строки"></textarea>
+            <button onclick="generateKeys()">Сгенерировать ключики 🔑</button>
+        </div>
+
+        <div id="generated-keys" class="hidden">
+            <div class="keys">
+                <!-- Generated keys will appear here -->
+            </div>
+        </div>
+    </main>
+
+    <div id="notification" class="notification hidden">Ключ успешно скопирован в буфер обмена</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
