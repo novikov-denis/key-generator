@@ -61,9 +61,24 @@ body {
     background-color: white;
     margin: 10px 0;
     border-radius: 5px;
+    font-size: 14px;
+}
+
+.key-row input[type="text"] {
+    width: 60%;
+    font-size: 14px;
 }
 
 .key-row .copy-button {
+    background-color: #42A663;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.key-row .copy-text-button {
     background-color: #42A663;
     color: white;
     padding: 5px 10px;
@@ -84,4 +99,5 @@ body {
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
+    font-size: 14px;
 }
