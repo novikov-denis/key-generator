@@ -46,7 +46,7 @@ function generateKeys() {
 
             const description = document.createElement('input');
             description.type = 'text';
-            description.value = generateDescription(index, courseSlug, lessonId, moduleNames);
+            description.value = generateDescription(index, courseSlug, lessonId, moduleNames, moduleCount);
             description.readOnly = true;
 
             const copyTextButton = document.createElement('button');
@@ -75,7 +75,17 @@ function extractLessonId(link) {
     return match ? match[1] : '';
 }
 
-function generateDescription(index, courseSlug, lessonId, moduleNames) {
+function generateDescription(index, courseSlug, lessonId, moduleNames, moduleCount) {
+    const moduleImages = [
+        'https://pictures.s3.yandex.net/resources/module_1_1703234174.svg',
+        'https://pictures.s3.yandex.net/resources/module_2_1703234182.svg',
+        'https://pictures.s3.yandex.net/resources/module_3_1703234324.svg',
+        'https://pictures.s3.yandex.net/resources/module_4_1703173151.svg',
+        'https://pictures.s3.yandex.net/resources/module_5_1712064865.svg',
+        'https://pictures.s3.yandex.net/resources/module_6_1712065452.svg',
+        'https://pictures.s3.yandex.net/resources/module_7_1712057230.svg'
+    ];
+
     switch (index) {
         case 0:
         case 1:
@@ -86,7 +96,8 @@ function generateDescription(index, courseSlug, lessonId, moduleNames) {
             return `Точно стоит подтянуть: ${moduleNames[0]}`;
         case 4:
         case 5:
-            return `https://pictures.s3.yandex.net/resources/module_1_1703234174.svg`;
+            const moduleIndex = Math.min(moduleCount - 1, moduleImages.length - 1);
+            return moduleImages[moduleIndex];
         case 6:
         case 7:
             return '1';
