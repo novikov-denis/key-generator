@@ -11,16 +11,18 @@ function generateKeys() {
     const moduleCount = parseInt(document.getElementById('module-count').value);
     const courseLinks = document.getElementById('course-links').value.split('\n');
     const moduleNames = document.getElementById('module-names').value.split('\n');
-    const lessonLinks = document.getElementById('lesson-links').value.split('\n');
 
     const keyContainer = document.getElementById('generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
+    if (!courseSlug || !moduleCount || courseLinks.length === 0 || moduleNames.length === 0) {
+        showNotification('Пожалуйста, заполните все поля.', true);
+        return;
+    }
+
     courseLinks.forEach((link, index) => {
         const lessonId = extractLessonId(link);
-        const moduleLessonLink = lessonLinks[index];
-        const moduleLessonId = extractLessonId(moduleLessonLink);
 
         const keys = [
             `assessmentsFeedback.assessment.${lessonId}.grade.average.recommendationCard.1.link`,
@@ -49,7 +51,7 @@ function generateKeys() {
 
             const description = document.createElement('input');
             description.type = 'text';
-            description.value = generateDescription(keyIndex, courseSlug, moduleLessonId, moduleNames[index], index + 1);
+            description.value = generateDescription(keyIndex, courseSlug, moduleNames[index], index + 1);
             description.readOnly = true;
 
             const copyTextButton = document.createElement('button');
@@ -78,7 +80,7 @@ function extractLessonId(link) {
     return match ? match[1] : '';
 }
 
-function generateDescription(index, courseSlug, lessonId, moduleName, moduleIndex) {
+function generateDescription(index, courseSlug, moduleName, moduleIndex) {
     const moduleImages = [
         'https://pictures.s3.yandex.net/resources/module_1_1703234174.svg',
         'https://pictures.s3.yandex.net/resources/module_2_1703234182.svg',
@@ -92,7 +94,7 @@ function generateDescription(index, courseSlug, lessonId, moduleName, moduleInde
     switch (index) {
         case 0:
         case 1:
-            return ``;
+            return 'Вручную возьми ссылку из преста на урок, на которую должна вести рекомендация';
         case 2:
             return `Лучше подтянуть: ${moduleName}`;
         case 3:
