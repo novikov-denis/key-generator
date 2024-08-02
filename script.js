@@ -11,6 +11,7 @@ function generateKeys() {
     const moduleCount = parseInt(document.getElementById('module-count').value);
     const courseLinks = document.getElementById('course-links').value.split('\n');
     const moduleNames = document.getElementById('module-names').value.split('\n');
+    const lessonLinks = document.getElementById('lesson-links').value.split('\n');
 
     const keyContainer = document.getElementById('generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
@@ -18,6 +19,7 @@ function generateKeys() {
 
     courseLinks.forEach((link, index) => {
         const lessonId = extractLessonId(link);
+        const moduleLessonId = extractLessonId(lessonLinks[index]);
 
         const keys = [
             `assessmentsFeedback.assessment.${lessonId}.grade.average.recommendationCard.1.link`,
@@ -46,7 +48,7 @@ function generateKeys() {
 
             const description = document.createElement('input');
             description.type = 'text';
-            description.value = generateDescription(keyIndex, courseSlug, lessonId, moduleNames[index], index + 1);
+            description.value = generateDescription(keyIndex, courseSlug, moduleLessonId, moduleNames[index], index + 1);
             description.readOnly = true;
 
             const copyTextButton = document.createElement('button');
@@ -75,7 +77,7 @@ function extractLessonId(link) {
     return match ? match[1] : '';
 }
 
-function generateDescription(index, courseSlug, lessonId, moduleName, moduleIndex) {
+function generateDescription(index, courseSlug, moduleLessonId, moduleName, moduleIndex) {
     const moduleImages = [
         'https://pictures.s3.yandex.net/resources/module_1_1703234174.svg',
         'https://pictures.s3.yandex.net/resources/module_2_1703234182.svg',
@@ -89,7 +91,7 @@ function generateDescription(index, courseSlug, lessonId, moduleName, moduleInde
     switch (index) {
         case 0:
         case 1:
-            return `Возьми вручную в престе`;
+            return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${moduleLessonId}`;
         case 2:
             return `Лучше подтянуть: ${moduleName}`;
         case 3:
