@@ -40,13 +40,21 @@ function generateKeys() {
             copyButton.textContent = 'Скопировать ключ';
             copyButton.onclick = () => copyToClipboard(key);
 
+            const description = document.createElement('input');
+            description.type = 'text';
+            description.value = generateDescription(index, courseSlug, lessonId, moduleNames);
+            description.readOnly = true;
+
+            const copyTextButton = document.createElement('button');
+            copyTextButton.classList.add('copy-text-button');
+            copyTextButton.textContent = 'Скопировать текст ключа';
+            copyTextButton.onclick = () => copyToClipboard(description.value);
+
             keyRow.appendChild(keyField);
             keyRow.appendChild(copyButton);
-
-            const description = document.createElement('div');
-            description.textContent = generateDescription(index, courseSlug, lessonId, moduleNames);
-
             keyRow.appendChild(description);
+            keyRow.appendChild(copyTextButton);
+
             keysDiv.appendChild(keyRow);
         });
     });
