@@ -73,12 +73,12 @@ function generateKeys() {
 }
 
 function extractLessonId(link) {
-    const regex = /lessons\/([a-z0-9-]+)\//;
+    const regex = /lesson\/([a-z0-9-]+)\//;
     const match = link.match(regex);
     return match ? match[1] : '';
 }
 
-function generateDescription(index, courseSlug, lessonId, moduleName, moduleIndex) {
+function generateDescription(index, courseSlug, moduleLessonId, moduleName, moduleIndex) {
     const moduleImages = [
         'https://pictures.s3.yandex.net/resources/module_1_1703234174.svg',
         'https://pictures.s3.yandex.net/resources/module_2_1703234182.svg',
@@ -92,7 +92,7 @@ function generateDescription(index, courseSlug, lessonId, moduleName, moduleInde
     switch (index) {
         case 0:
         case 1:
-            return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${lessonId}`;
+            return `https://practicum.yandex.ru/trainer/${courseSlug}/lesson/${moduleLessonId}`;
         case 2:
             return `Лучше подтянуть: ${moduleName}`;
         case 3:
