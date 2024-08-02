@@ -91,41 +91,73 @@ function generateReviewKeys() {
         return;
     }
 
-    const key = `reviewStatus.${professionSlug}.reviewSLA`;
-    const description = 'В танкере укажите кол-во часов для проверки работы';
+    const reviewSLAKey = `reviewStatus.${professionSlug}.reviewSLA`;
+    const reviewSLADescription = 'В танкере укажите кол-во часов для проверки работы';
 
-    const keyRow = document.createElement('div');
-    keyRow.classList.add('key-row');
+    const reviewKeys = [
+        `proficiency.review.status.${professionSlug}.taskWaitsReview`,
+        `proficiency.review.status.${professionSlug}.reviewInProcess`,
+        `proficiency.review.status.${professionSlug}.testsPassed`
+    ];
 
-    const keyField = document.createElement('input');
-    keyField.type = 'text';
-    keyField.value = key;
-    keyField.readOnly = true;
+    // Create and append review SLA key and description
+    const reviewSLARow = document.createElement('div');
+    reviewSLARow.classList.add('key-row');
 
-    const copyButton = document.createElement('button');
-    copyButton.classList.add('copy-button');
-    copyButton.textContent = 'Скопировать ключ';
-    copyButton.onclick = () => copyToClipboard(key);
+    const reviewSLAField = document.createElement('input');
+    reviewSLAField.type = 'text';
+    reviewSLAField.value = reviewSLAKey;
+    reviewSLAField.readOnly = true;
 
-    const descriptionField = document.createElement('input');
-    descriptionField.type = 'text';
-    descriptionField.value = description;
-    descriptionField.readOnly = true;
+    const copySLAButton = document.createElement('button');
+    copySLAButton.classList.add('copy-button');
+    copySLAButton.textContent = 'Скопировать ключ';
+    copySLAButton.onclick = () => copyToClipboard(reviewSLAKey);
 
-    const copyTextButton = document.createElement('button');
-    copyTextButton.classList.add('copy-text-button');
-    copyTextButton.textContent = 'Скопировать текст ключа';
-    copyTextButton.onclick = () => {
-        copyToClipboard(description);
+    const reviewSLADescriptionField = document.createElement('input');
+    reviewSLADescriptionField.type = 'text';
+    reviewSLADescriptionField.value = reviewSLADescription;
+    reviewSLADescriptionField.readOnly = true;
+
+    const copySLADescriptionButton = document.createElement('button');
+    copySLADescriptionButton.classList.add('copy-text-button');
+    copySLADescriptionButton.textContent = 'Скопировать текст ключа';
+    copySLADescriptionButton.onclick = () => {
+        copyToClipboard(reviewSLADescription);
         showNotification('Текст ключа успешно скопирован в буфер обмена');
     };
 
-    keyRow.appendChild(keyField);
-    keyRow.appendChild(copyButton);
-    keyRow.appendChild(descriptionField);
-    keyRow.appendChild(copyTextButton);
+    reviewSLARow.appendChild(reviewSLAField);
+    reviewSLARow.appendChild(copySLAButton);
+    reviewSLARow.appendChild(reviewSLADescriptionField);
+    reviewSLARow.appendChild(copySLADescriptionButton);
 
-    keysDiv.appendChild(keyRow);
+    keysDiv.appendChild(document.createTextNode('🔑 Ключ, который меняет только количество часов ревью:'));
+    keysDiv.appendChild(reviewSLARow);
+
+    // Create and append review text keys and descriptions
+    keysDiv.appendChild(document.createTextNode('🔑 Ключи, которые меняют текст при ревью:'));
+    keysDiv.appendChild(document.createTextNode('Если вам нужно настроить текст с SLA для всех работ профессии:'));
+
+    reviewKeys.forEach((key) => {
+        const keyRow = document.createElement('div');
+        keyRow.classList.add('key-row');
+
+        const keyField = document.createElement('input');
+        keyField.type = 'text';
+        keyField.value = key;
+        keyField.readOnly = true;
+
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = 'Скопировать ключ';
+        copyButton.onclick = () => copyToClipboard(key);
+
+        keyRow.appendChild(keyField);
+        keyRow.appendChild(copyButton);
+
+        keysDiv.appendChild(keyRow);
+    });
 
     keyContainer.classList.remove('hidden');
 }
