@@ -21,6 +21,7 @@
             <button onclick="showAssessmentFields()">Ассессменты Грейда</button>
             <button onclick="showNotAvailable()">Попап</button>
             <button onclick="showReviewStatusFields()">Статусы ревью</button>
+            <button onclick="showCharactersFields()">Персонажи</button>
             <button onclick="showNotAvailable()">Окно с результатами тестов</button>
         </div>
 
@@ -35,6 +36,16 @@
         <div id="review-status-fields" class="hidden">
             <input type="text" id="profession-slug" placeholder="Введи слаг профессии">
             <button onclick="generateReviewKeys()">Сгенерировать ключи 🔑</button>
+        </div>
+
+        <div id="characters-fields" class="hidden">
+            <div class="notice">
+                Обязательно добавь тег персонажа в ключе – <a href="https://tanker.yandex-team.ru/project/praktikum/keyset/common/key/dialog.characters?branch=production" target="_blank">сюды</a>
+            </div>
+            <input type="text" id="character-tag" placeholder="Напиши сюда тег персонажа">
+            <input type="text" id="character-name" placeholder="Напиши сюда имя персонажа">
+            <input type="text" id="character-avatar" placeholder="Вставь сюда ссылку на аватарку персонажа с S3">
+            <button onclick="generateCharacterKeys()">Сгенерировать ключи 🔑</button>
         </div>
 
         <div id="generated-keys" class="hidden">
