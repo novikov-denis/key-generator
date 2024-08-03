@@ -1,11 +1,19 @@
 function showAssessmentFields() {
     document.getElementById('assessment-fields').classList.remove('hidden');
     document.getElementById('review-status-fields').classList.add('hidden');
+    document.getElementById('characters-fields').classList.add('hidden');
 }
 
 function showReviewStatusFields() {
     document.getElementById('review-status-fields').classList.remove('hidden');
     document.getElementById('assessment-fields').classList.add('hidden');
+    document.getElementById('characters-fields').classList.add('hidden');
+}
+
+function showCharactersFields() {
+    document.getElementById('characters-fields').classList.remove('hidden');
+    document.getElementById('assessment-fields').classList.add('hidden');
+    document.getElementById('review-status-fields').classList.add('hidden');
 }
 
 function showNotAvailable() {
@@ -149,6 +157,71 @@ function generateReviewKeys() {
     keysDiv.appendChild(document.createTextNode('Если вам нужно настроить текст с SLA для всех работ профессии:'));
 
     reviewKeys.forEach(({ key, description }) => {
+        const keyRow = document.createElement('div');
+        keyRow.classList.add('key-row');
+
+        const keyField = document.createElement('input');
+        keyField.type = 'text';
+        keyField.value = key;
+        keyField.readOnly = true;
+
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = 'Скопировать ключ';
+        copyButton.onclick = () => copyToClipboard(key);
+
+        const descriptionField = document.createElement('input');
+        descriptionField.type = 'text';
+        descriptionField.value = description;
+        descriptionField.readOnly = true;
+
+        const copyTextButton = document.createElement('button');
+        copyTextButton.classList.add('copy-text-button');
+        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.onclick = () => {
+            copyToClipboard(description);
+            showNotification('Текст ключа успешно скопирован в буфер обмена');
+        };
+
+        keyRow.appendChild(keyField);
+        keyRow.appendChild(copyButton);
+        keyRow.appendChild(descriptionField);
+        keyRow.appendChild(copyTextButton);
+
+        keysDiv.appendChild(keyRow);
+    });
+
+    keyContainer.classList.remove('hidden');
+}
+
+function generateCharacterKeys() {
+    const characterTag = document.getElementById('character-tag').value;
+    const characterName = document.getElementById('character-name').value;
+    const characterAvatar = document.getElementById('character-avatar').value;
+
+    const keyContainer = document.getElementById('generated-keys');
+    const keysDiv = keyContainer.querySelector('.keys');
+    keysDiv.innerHTML = '';
+
+    if (!characterTag || !characterName || !characterAvatar) {
+        showNotification('Пожалуйста, заполните все поля.', true);
+        return;
+    }
+
+    const characterKeys = [
+        {
+            key: `dialog.characters.${characterTag}.name`,
+            description: characterName
+        },
+        {
+            key: `dialog.characters.${characterTag}.avatar`,
+            description: characterAvatar
+        }
+    ];
+
+    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи персонажей:'));
+
+    characterKeys.forEach(({ key, description }) => {
         const keyRow = document.createElement('div');
         keyRow.classList.add('key-row');
 
