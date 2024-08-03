@@ -95,9 +95,18 @@ function generateReviewKeys() {
     const reviewSLADescription = 'В танкере укажите кол-во часов для проверки работы';
 
     const reviewKeys = [
-        `proficiency.review.status.${professionSlug}.taskWaitsReview`,
-        `proficiency.review.status.${professionSlug}.reviewInProcess`,
-        `proficiency.review.status.${professionSlug}.testsPassed`
+        {
+            key: `proficiency.review.status.${professionSlug}.taskWaitsReview`,
+            description: `Задание отправлено и ожидает проверки.<br>Обычно проверка задания занимает не более 24 часов.`
+        },
+        {
+            key: `proficiency.review.status.${professionSlug}.reviewInProcess`,
+            description: `Работа отправлена на ревью.<br>Проверка займёт не больше 24 часов. Если сутки прошли, а работа всё ещё не проверена, напишите куратору.`
+        },
+        {
+            key: `proficiency.review.status.${professionSlug}.testsPassed`,
+            description: `Тесты пройдены, и задание ожидает ревью.<br>Обычно проверка занимает не более 24 часов.`
+        }
     ];
 
     // Create and append review SLA key and description
@@ -139,7 +148,7 @@ function generateReviewKeys() {
     keysDiv.appendChild(document.createTextNode('🔑 Ключи, которые меняют текст при ревью:'));
     keysDiv.appendChild(document.createTextNode('Если вам нужно настроить текст с SLA для всех работ профессии:'));
 
-    reviewKeys.forEach((key) => {
+    reviewKeys.forEach(({ key, description }) => {
         const keyRow = document.createElement('div');
         keyRow.classList.add('key-row');
 
@@ -153,8 +162,23 @@ function generateReviewKeys() {
         copyButton.textContent = 'Скопировать ключ';
         copyButton.onclick = () => copyToClipboard(key);
 
+        const descriptionField = document.createElement('input');
+        descriptionField.type = 'text';
+        descriptionField.value = description;
+        descriptionField.readOnly = true;
+
+        const copyTextButton = document.createElement('button');
+        copyTextButton.classList.add('copy-text-button');
+        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.onclick = () => {
+            copyToClipboard(description);
+            showNotification('Текст ключа успешно скопирован в буфер обмена');
+        };
+
         keyRow.appendChild(keyField);
         keyRow.appendChild(copyButton);
+        keyRow.appendChild(descriptionField);
+        keyRow.appendChild(copyTextButton);
 
         keysDiv.appendChild(keyRow);
     });
