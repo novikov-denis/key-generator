@@ -2,18 +2,40 @@ function showAssessmentFields() {
     document.getElementById('assessment-fields').classList.remove('hidden');
     document.getElementById('review-status-fields').classList.add('hidden');
     document.getElementById('characters-fields').classList.add('hidden');
+    document.getElementById('test-results-fields').classList.add('hidden');
 }
 
 function showReviewStatusFields() {
     document.getElementById('review-status-fields').classList.remove('hidden');
     document.getElementById('assessment-fields').classList.add('hidden');
     document.getElementById('characters-fields').classList.add('hidden');
+    document.getElementById('test-results-fields').classList.add('hidden');
 }
 
 function showCharactersFields() {
     document.getElementById('characters-fields').classList.remove('hidden');
     document.getElementById('assessment-fields').classList.add('hidden');
     document.getElementById('review-status-fields').classList.add('hidden');
+    document.getElementById('test-results-fields').classList.add('hidden');
+}
+
+function showTestResultsFields() {
+    document.getElementById('test-results-fields').classList.remove('hidden');
+    document.getElementById('assessment-fields').classList.add('hidden');
+    document.getElementById('review-status-fields').classList.add('hidden');
+    document.getElementById('characters-fields').classList.add('hidden');
+}
+
+function showTestResultsOptions() {
+    const selectedOption = document.getElementById('test-results-type').value;
+    document.getElementById('test-results-button-fields').classList.add('hidden');
+    document.getElementById('test-results-result-fields').classList.add('hidden');
+
+    if (selectedOption === 'button') {
+        document.getElementById('test-results-button-fields').classList.remove('hidden');
+    } else if (selectedOption === 'result') {
+        document.getElementById('test-results-result-fields').classList.remove('hidden');
+    }
 }
 
 function showNotAvailable() {
@@ -222,6 +244,138 @@ function generateCharacterKeys() {
     keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи персонажей:'));
 
     characterKeys.forEach(({ key, description }) => {
+        const keyRow = document.createElement('div');
+        keyRow.classList.add('key-row');
+
+        const keyField = document.createElement('input');
+        keyField.type = 'text';
+        keyField.value = key;
+        keyField.readOnly = true;
+
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = 'Скопировать ключ';
+        copyButton.onclick = () => copyToClipboard(key);
+
+        const descriptionField = document.createElement('input');
+        descriptionField.type = 'text';
+        descriptionField.value = description;
+        descriptionField.readOnly = true;
+
+        const copyTextButton = document.createElement('button');
+        copyTextButton.classList.add('copy-text-button');
+        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.onclick = () => {
+            copyToClipboard(description);
+            showNotification('Текст ключа успешно скопирован в буфер обмена');
+        };
+
+        keyRow.appendChild(keyField);
+        keyRow.appendChild(copyButton);
+        keyRow.appendChild(descriptionField);
+        keyRow.appendChild(copyTextButton);
+
+        keysDiv.appendChild(keyRow);
+    });
+
+    keyContainer.classList.remove('hidden');
+}
+
+function generateTestResultsButtonKeys() {
+    const professionSlug = document.getElementById('test-results-button-profession-slug').value;
+    const keyContainer = document.getElementById('generated-keys');
+    const keysDiv = keyContainer.querySelector('.keys');
+    keysDiv.innerHTML = '';
+
+    if (!professionSlug) {
+        showNotification('Пожалуйста, введите слаг профессии.', true);
+        return;
+    }
+
+    const buttonKeys = [
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.title`,
+            description: `Результаты итогового теста`
+        },
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.text`,
+            description: `Выходной тест помогает узнать уровень ваших знаний по программе. По результатам теста мы вышлем вам сертификат о подтверждении владения навыком или предложим повторить модули.`
+        },
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.openFeedbackButtonText`,
+            description: `Узнать результаты`
+        },
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.pictureUrl`,
+            description: `https://code.s3.yandex.net/Assessments/results-card-picture.png`
+        }
+    ];
+
+    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для кнопки:'));
+
+    buttonKeys.forEach(({ key, description }) => {
+        const keyRow = document.createElement('div');
+        keyRow.classList.add('key-row');
+
+        const keyField = document.createElement('input');
+        keyField.type = 'text';
+        keyField.value = key;
+        keyField.readOnly = true;
+
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = 'Скопировать ключ';
+        copyButton.onclick = () => copyToClipboard(key);
+
+        const descriptionField = document.createElement('input');
+        descriptionField.type = 'text';
+        descriptionField.value = description;
+        descriptionField.readOnly = true;
+
+        const copyTextButton = document.createElement('button');
+        copyTextButton.classList.add('copy-text-button');
+        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.onclick = () => {
+            copyToClipboard(description);
+            showNotification('Текст ключа успешно скопирован в буфер обмена');
+        };
+
+        keyRow.appendChild(keyField);
+        keyRow.appendChild(copyButton);
+        keyRow.appendChild(descriptionField);
+        keyRow.appendChild(copyTextButton);
+
+        keysDiv.appendChild(keyRow);
+    });
+
+    keyContainer.classList.remove('hidden');
+}
+
+function generateTestResultsResultKeys() {
+    const professionSlug = document.getElementById('test-results-result-profession-slug').value;
+    const keyContainer = document.getElementById('generated-keys');
+    const keysDiv = keyContainer.querySelector('.keys');
+    keysDiv.innerHTML = '';
+
+    if (!professionSlug) {
+        showNotification('Пожалуйста, введите слаг профессии.', true);
+        return;
+    }
+
+    const resultKeys = [
+        {
+            key: `exitAssessmentsFeedback.averageResult.grade.pass.${professionSlug}.content.md`,
+            description: `Текст от авторов обязательно прогоните в https://www.artlebedev.ru/typograf/`
+        },
+        {
+            key: `exitAssessmentsFeedback.averageResult.grade.no_pass.${professionSlug}.content.md`,
+            description: `Текст от авторов обязательно прогоните в https://www.artlebedev.ru/typograf/`
+        }
+    ];
+
+    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для вывода результата:'));
+
+    resultKeys.forEach(({ key, description }) => {
         const keyRow = document.createElement('div');
         keyRow.classList.add('key-row');
 
