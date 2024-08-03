@@ -28,13 +28,19 @@ function showTestResultsFields() {
 
 function showTestResultsOptions() {
     const selectedOption = document.getElementById('test-results-type').value;
-    document.getElementById('test-results-button-fields').classList.add('hidden');
-    document.getElementById('test-results-result-fields').classList.add('hidden');
+    document.getElementById('test-results-open-entrance-fields').classList.add('hidden');
+    document.getElementById('test-results-open-exit-fields').classList.add('hidden');
+    document.getElementById('test-results-display-entrance-fields').classList.add('hidden');
+    document.getElementById('test-results-display-exit-fields').classList.add('hidden');
 
-    if (selectedOption === 'button') {
-        document.getElementById('test-results-button-fields').classList.remove('hidden');
-    } else if (selectedOption === 'result') {
-        document.getElementById('test-results-result-fields').classList.remove('hidden');
+    if (selectedOption === 'open-entrance') {
+        document.getElementById('test-results-open-entrance-fields').classList.remove('hidden');
+    } else if (selectedOption === 'open-exit') {
+        document.getElementById('test-results-open-exit-fields').classList.remove('hidden');
+    } else if (selectedOption === 'display-entrance') {
+        document.getElementById('test-results-display-entrance-fields').classList.remove('hidden');
+    } else if (selectedOption === 'display-exit') {
+        document.getElementById('test-results-display-exit-fields').classList.remove('hidden');
     }
 }
 
@@ -281,8 +287,8 @@ function generateCharacterKeys() {
     keyContainer.classList.remove('hidden');
 }
 
-function generateTestResultsButtonKeys() {
-    const professionSlug = document.getElementById('test-results-button-profession-slug').value;
+function generateTestResultsOpenEntranceKeys() {
+    const professionSlug = document.getElementById('test-results-open-entrance-profession-slug').value;
     const keyContainer = document.getElementById('generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
@@ -294,24 +300,24 @@ function generateTestResultsButtonKeys() {
 
     const buttonKeys = [
         {
-            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.title`,
-            description: `Результаты итогового теста`
+            key: `assessmentsFeedback.resultsCard.${professionSlug}.title`,
+            description: `В начале курса мы дали вам рекомендации после теста`
         },
         {
-            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.text`,
-            description: `Выходной тест помогает узнать уровень ваших знаний по программе. По результатам теста мы вышлем вам сертификат о подтверждении владения навыком или предложим повторить модули.`
+            key: `assessmentsFeedback.resultsCard.${professionSlug}.text`,
+            description: `Мы проанализировали их и составили рекомендации — так проще понять, где можно немного расслабиться, а какие навыки нужно подтянуть`
         },
         {
-            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.openFeedbackButtonText`,
-            description: `Узнать результаты`
+            key: `assessmentsFeedback.resultsCard.${professionSlug}.openFeedbackButtonText`,
+            description: `Покажите, что там`
         },
         {
-            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.pictureUrl`,
-            description: `https://code.s3.yandex.net/Assessments/results-card-picture.png`
+            key: `assessmentsFeedback.resultsCard.${professionSlug}.pictureUrl`,
+            description: `https://code.s3.yandex.net/Assessments/entrance-assessments-feedback-card-picture.png`
         }
     ];
 
-    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для кнопки:'));
+    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для открытия входного результата:'));
 
     buttonKeys.forEach(({ key, description }) => {
         const keyRow = document.createElement('div');
@@ -351,8 +357,144 @@ function generateTestResultsButtonKeys() {
     keyContainer.classList.remove('hidden');
 }
 
-function generateTestResultsResultKeys() {
-    const professionSlug = document.getElementById('test-results-result-profession-slug').value;
+function generateTestResultsOpenExitKeys() {
+    const professionSlug = document.getElementById('test-results-open-exit-profession-slug').value;
+    const keyContainer = document.getElementById('generated-keys');
+    const keysDiv = keyContainer.querySelector('.keys');
+    keysDiv.innerHTML = '';
+
+    if (!professionSlug) {
+        showNotification('Пожалуйста, введите слаг профессии.', true);
+        return;
+    }
+
+    const buttonKeys = [
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.title`,
+            description: `Результаты итогового теста`
+        },
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.text`,
+            description: `Выходной тест помогает узнать уровень ваших знаний по программе. По результатам теста мы вышлем вам сертификат о подтверждении владения навыком или предложим повторить модули.`
+        },
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.openFeedbackButtonText`,
+            description: `Узнать результаты`
+        },
+        {
+            key: `exitAssessmentsFeedback.resultsCard.${professionSlug}.pictureUrl`,
+            description: `https://code.s3.yandex.net/Assessments/results-card-picture.png`
+        }
+    ];
+
+    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для открытия выходного результата:'));
+
+    buttonKeys.forEach(({ key, description }) => {
+        const keyRow = document.createElement('div');
+        keyRow.classList.add('key-row');
+
+        const keyField = document.createElement('input');
+        keyField.type = 'text';
+        keyField.value = key;
+        keyField.readOnly = true;
+
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = 'Скопировать ключ';
+        copyButton.onclick = () => copyToClipboard(key);
+
+        const descriptionField = document.createElement('input');
+        descriptionField.type = 'text';
+        descriptionField.value = description;
+        descriptionField.readOnly = true;
+
+        const copyTextButton = document.createElement('button');
+        copyTextButton.classList.add('copy-text-button');
+        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.onclick = () => {
+            copyToClipboard(description);
+            showNotification('Текст ключа успешно скопирован в буфер обмена');
+        };
+
+        keyRow.appendChild(keyField);
+        keyRow.appendChild(copyButton);
+        keyRow.appendChild(descriptionField);
+        keyRow.appendChild(copyTextButton);
+
+        keysDiv.appendChild(keyRow);
+    });
+
+    keyContainer.classList.remove('hidden');
+}
+
+function generateTestResultsDisplayEntranceKeys() {
+    const professionSlug = document.getElementById('test-results-display-entrance-profession-slug').value;
+    const keyContainer = document.getElementById('generated-keys');
+    const keysDiv = keyContainer.querySelector('.keys');
+    keysDiv.innerHTML = '';
+
+    if (!professionSlug) {
+        showNotification('Пожалуйста, введите слаг профессии.', true);
+        return;
+    }
+
+    const resultKeys = [
+        {
+            key: `assessmentsFeedback.averageResult.grade.low.${professionSlug}.content.md`,
+            description: `Текст от авторов обязательно прогоните в [Типографе](https://www.artlebedev.ru/typograf/)`
+        },
+        {
+            key: `assessmentsFeedback.averageResult.grade.average.${professionSlug}.content.md`,
+            description: `Текст от авторов обязательно прогоните в [Типографе](https://www.artlebedev.ru/typograf/)`
+        },
+        {
+            key: `assessmentsFeedback.averageResult.grade.high.${professionSlug}.content.md`,
+            description: `Текст от авторов обязательно прогоните в [Типографе](https://www.artlebedev.ru/typograf/)`
+        }
+    ];
+
+    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для вывода входного результата:'));
+
+    resultKeys.forEach(({ key, description }) => {
+        const keyRow = document.createElement('div');
+        keyRow.classList.add('key-row');
+
+        const keyField = document.createElement('input');
+        keyField.type = 'text';
+        keyField.value = key;
+        keyField.readOnly = true;
+
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = 'Скопировать ключ';
+        copyButton.onclick = () => copyToClipboard(key);
+
+        const descriptionField = document.createElement('input');
+        descriptionField.type = 'text';
+        descriptionField.value = description;
+        descriptionField.readOnly = true;
+
+        const copyTextButton = document.createElement('button');
+        copyTextButton.classList.add('copy-text-button');
+        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.onclick = () => {
+            copyToClipboard(description);
+            showNotification('Текст ключа успешно скопирован в буфер обмена');
+        };
+
+        keyRow.appendChild(keyField);
+        keyRow.appendChild(copyButton);
+        keyRow.appendChild(descriptionField);
+        keyRow.appendChild(copyTextButton);
+
+        keysDiv.appendChild(keyRow);
+    });
+
+    keyContainer.classList.remove('hidden');
+}
+
+function generateTestResultsDisplayExitKeys() {
+    const professionSlug = document.getElementById('test-results-display-exit-profession-slug').value;
     const keyContainer = document.getElementById('generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
@@ -365,15 +507,15 @@ function generateTestResultsResultKeys() {
     const resultKeys = [
         {
             key: `exitAssessmentsFeedback.averageResult.grade.pass.${professionSlug}.content.md`,
-            description: `Текст от авторов обязательно прогоните в https://www.artlebedev.ru/typograf/`
+            description: `Текст от авторов обязательно прогоните в [Типографе](https://www.artlebedev.ru/typograf/)`
         },
         {
             key: `exitAssessmentsFeedback.averageResult.grade.no_pass.${professionSlug}.content.md`,
-            description: `Текст от авторов обязательно прогоните в https://www.artlebedev.ru/typograf/`
+            description: `Текст от авторов обязательно прогоните в [Типографе](https://www.artlebedev.ru/typograf/)`
         }
     ];
 
-    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для вывода результата:'));
+    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи для вывода выходного результата:'));
 
     resultKeys.forEach(({ key, description }) => {
         const keyRow = document.createElement('div');
