@@ -22,7 +22,7 @@
             <button onclick="showNotAvailable()">Попап</button>
             <button onclick="showReviewStatusFields()">Статусы ревью</button>
             <button onclick="showCharactersFields()">Персонажи</button>
-            <button onclick="showNotAvailable()">Окно с результатами тестов</button>
+            <button onclick="showTestResultsFields()">Окно с результатами тестов</button>
         </div>
 
         <div id="assessment-fields" class="hidden">
@@ -40,12 +40,28 @@
 
         <div id="characters-fields" class="hidden">
             <div class="notice">
-                Обязательно добавь тег персонажа в ключе – <a href="https://tanker.yandex-team.ru/project/praktikum/keyset/common/key/dialog.characters?branch=production" target="_blank">сюды</a>
+                Обязательно добавь тег персонажа в ключе – <a href="https://tanker.yandex-team.ru/project/praktikum/keyset/common/key/dialog.characters?branch=production" target="_blank">сюды</a>
             </div>
             <input type="text" id="character-tag" placeholder="Напиши сюда тег персонажа">
             <input type="text" id="character-name" placeholder="Напиши сюда имя персонажа">
             <input type="text" id="character-avatar" placeholder="Вставь сюда ссылку на аватарку персонажа с S3">
             <button onclick="generateCharacterKeys()">Сгенерировать ключи 🔑</button>
+        </div>
+
+        <div id="test-results-fields" class="hidden">
+            <select id="test-results-type" onchange="showTestResultsOptions()">
+                <option value="">Выберите тип ключей</option>
+                <option value="button">Ключи для кнопки</option>
+                <option value="result">Ключи для вывода результата</option>
+            </select>
+            <div id="test-results-button-fields" class="hidden">
+                <input type="text" id="test-results-button-profession-slug" placeholder="Напиши сюда слаг профессии">
+                <button onclick="generateTestResultsButtonKeys()">Сгенерировать ключи 🔑</button>
+            </div>
+            <div id="test-results-result-fields" class="hidden">
+                <input type="text" id="test-results-result-profession-slug" placeholder="Напиши сюда слаг профессии">
+                <button onclick="generateTestResultsResultKeys()">Сгенерировать ключи 🔑</button>
+            </div>
         </div>
 
         <div id="generated-keys" class="hidden">
