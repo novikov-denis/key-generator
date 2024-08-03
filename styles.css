@@ -62,7 +62,8 @@ body {
 }
 
 #assessment-fields input, #assessment-fields textarea,
-#review-status-fields input, #characters-fields input {
+#review-status-fields input, #characters-fields input,
+#test-results-button-fields input, #test-results-result-fields input {
     display: block;
     width: 100%;
     margin: 10px 0;
