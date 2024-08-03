@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Генератор ключей</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -52,16 +51,26 @@
         <div id="test-results-fields" class="hidden">
             <select id="test-results-type" onchange="showTestResultsOptions()">
                 <option value="">Выберите тип ключей</option>
-                <option value="button">Ключи для кнопки</option>
-                <option value="result">Ключи для вывода результата</option>
+                <option value="open-entrance">Ключи для открытия входного результата</option>
+                <option value="open-exit">Ключи для открытия выходного результата</option>
+                <option value="display-entrance">Ключи для вывода входного результата</option>
+                <option value="display-exit">Ключи для вывода выходного результата</option>
             </select>
-            <div id="test-results-button-fields" class="hidden">
-                <input type="text" id="test-results-button-profession-slug" placeholder="Напиши сюда слаг профессии">
-                <button onclick="generateTestResultsButtonKeys()">Сгенерировать ключи 🔑</button>
+            <div id="test-results-open-entrance-fields" class="hidden">
+                <input type="text" id="test-results-open-entrance-profession-slug" placeholder="Напиши сюда слаг профессии">
+                <button onclick="generateTestResultsOpenEntranceKeys()">Сгенерировать ключи 🔑</button>
             </div>
-            <div id="test-results-result-fields" class="hidden">
-                <input type="text" id="test-results-result-profession-slug" placeholder="Напиши сюда слаг профессии">
-                <button onclick="generateTestResultsResultKeys()">Сгенерировать ключи 🔑</button>
+            <div id="test-results-open-exit-fields" class="hidden">
+                <input type="text" id="test-results-open-exit-profession-slug" placeholder="Напиши сюда слаг профессии">
+                <button onclick="generateTestResultsOpenExitKeys()">Сгенерировать ключи 🔑</button>
+            </div>
+            <div id="test-results-display-entrance-fields" class="hidden">
+                <input type="text" id="test-results-display-entrance-profession-slug" placeholder="Напиши сюда слаг профессии">
+                <button onclick="generateTestResultsDisplayEntranceKeys()">Сгенерировать ключи 🔑</button>
+            </div>
+            <div id="test-results-display-exit-fields" class="hidden">
+                <input type="text" id="test-results-display-exit-profession-slug" placeholder="Напиши сюда слаг профессии">
+                <button onclick="generateTestResultsDisplayExitKeys()">Сгенерировать ключи 🔑</button>
             </div>
         </div>
 
