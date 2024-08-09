@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <h1>Привет! Для доступа к генератору введи пароль</h1>
+            <input type="password" id="password-input" placeholder="Введите пароль">
+            <button onclick="checkPassword()">Войти</button>
+            <p id="error-message" class="error-message hidden">Неверный пароль. Попробуйте еще раз.</p>
+        </div>
+    </div>
+
     <header class="header">
         <div class="header-left">
             Генератор ключей
@@ -26,6 +35,7 @@
         </div>
 
         <div id="assessment-fields" class="hidden">
+            <img id="assessment-image" src="ass.png" alt="Assessment" class="center-image hidden">
             <input type="text" id="course-slug" placeholder="Укажи слаг курса">
             <input type="number" id="module-count" placeholder="Укажи количество модулей курса">
             <textarea id="course-links" placeholder="Вставь ссылку на ассессмент. Если их несколько, то каждую ссылку вставь с новой строки"></textarea>
