@@ -1,8 +1,20 @@
+function checkPassword() {
+    const passwordInput = document.getElementById('password-input').value;
+    const errorMessage = document.getElementById('error-message');
+
+    if (passwordInput === 'practicum') {
+        document.getElementById('loading-screen').style.display = 'none';
+    } else {
+        errorMessage.classList.remove('hidden');
+    }
+}
+
 function showAssessmentFields() {
     document.getElementById('assessment-fields').classList.remove('hidden');
     document.getElementById('review-status-fields').classList.add('hidden');
     document.getElementById('characters-fields').classList.add('hidden');
     document.getElementById('test-results-fields').classList.add('hidden');
+    document.getElementById('assessment-image').classList.remove('hidden');  // Показываем картинку "ass.png"
 }
 
 function showReviewStatusFields() {
@@ -10,6 +22,7 @@ function showReviewStatusFields() {
     document.getElementById('assessment-fields').classList.add('hidden');
     document.getElementById('characters-fields').classList.add('hidden');
     document.getElementById('test-results-fields').classList.add('hidden');
+    document.getElementById('assessment-image').classList.add('hidden');  // Прячем картинку "ass.png", если она была показана
 }
 
 function showCharactersFields() {
@@ -17,6 +30,7 @@ function showCharactersFields() {
     document.getElementById('assessment-fields').classList.add('hidden');
     document.getElementById('review-status-fields').classList.add('hidden');
     document.getElementById('test-results-fields').classList.add('hidden');
+    document.getElementById('assessment-image').classList.add('hidden');  // Прячем картинку "ass.png", если она была показана
 }
 
 function showTestResultsFields() {
@@ -24,6 +38,7 @@ function showTestResultsFields() {
     document.getElementById('assessment-fields').classList.add('hidden');
     document.getElementById('review-status-fields').classList.add('hidden');
     document.getElementById('characters-fields').classList.add('hidden');
+    document.getElementById('assessment-image').classList.add('hidden');  // Прячем картинку "ass.png", если она была показана
 }
 
 function showTestResultsOptions() {
