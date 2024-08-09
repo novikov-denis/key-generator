@@ -28,18 +28,28 @@ function showTestResultsFields() {
 
 function showTestResultsOptions() {
     const selectedOption = document.getElementById('test-results-type').value;
+    const testResultsImage = document.getElementById('test-results-image');
     document.getElementById('test-results-open-entrance-fields').classList.add('hidden');
     document.getElementById('test-results-open-exit-fields').classList.add('hidden');
     document.getElementById('test-results-display-entrance-fields').classList.add('hidden');
     document.getElementById('test-results-display-exit-fields').classList.add('hidden');
+    testResultsImage.classList.add('hidden');
 
     if (selectedOption === 'open-entrance') {
+        testResultsImage.src = 'test_enter.png';
+        testResultsImage.classList.remove('hidden');
         document.getElementById('test-results-open-entrance-fields').classList.remove('hidden');
     } else if (selectedOption === 'open-exit') {
+        testResultsImage.src = 'test_exit.png';
+        testResultsImage.classList.remove('hidden');
         document.getElementById('test-results-open-exit-fields').classList.remove('hidden');
     } else if (selectedOption === 'display-entrance') {
+        testResultsImage.src = 'enter.png';
+        testResultsImage.classList.remove('hidden');
         document.getElementById('test-results-display-entrance-fields').classList.remove('hidden');
     } else if (selectedOption === 'display-exit') {
+        testResultsImage.src = 'exit.png';
+        testResultsImage.classList.remove('hidden');
         document.getElementById('test-results-display-exit-fields').classList.remove('hidden');
     }
 }
