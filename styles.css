@@ -64,8 +64,7 @@ body {
 #assessment-fields input, #assessment-fields textarea,
 #review-status-fields input, #characters-fields input,
 #test-results-open-entrance-fields input, #test-results-open-exit-fields input,
-#test-results-display-entrance-fields input, #test-results-display-exit-fields input,
-#popup-fields input {
+#test-results-display-entrance-fields input, #test-results-display-exit-fields input {
     display: block;
     width: 100%;
     margin: 10px 0;
@@ -76,7 +75,7 @@ body {
     box-sizing: border-box;
 }
 
-#generated-keys .keys, #generated-popup-keys .keys {
+#generated-keys .keys {
     display: flex;
     flex-direction: column;
 }
@@ -238,16 +237,4 @@ body {
         padding: 8px 16px;
         font-size: 12px;
     }
-}
-
-#popup-fields, #generated-popup-keys {
-    margin-top: 20px;
-}
-
-#popup-image {
-    display: block;
-    margin: 0 auto 20px;
-    width: 100%;
-    max-width: 300px;
-    height: auto;
 }
