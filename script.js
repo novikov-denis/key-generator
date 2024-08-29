@@ -1,33 +1,33 @@
 function showAssessmentFields() {
-    hideAllFields();
+    hideAllSections();
     const assessmentFields = document.getElementById('assessment-fields');
     assessmentFields.classList.remove('hidden');
     clearGeneratedKeys();
 }
 
 function showReviewStatusFields() {
-    hideAllFields();
+    hideAllSections();
     const reviewStatusFields = document.getElementById('review-status-fields');
     reviewStatusFields.classList.remove('hidden');
     clearGeneratedKeys();
 }
 
 function showCharactersFields() {
-    hideAllFields();
+    hideAllSections();
     const charactersFields = document.getElementById('characters-fields');
     charactersFields.classList.remove('hidden');
     clearGeneratedKeys();
 }
 
 function showTestResultsFields() {
-    hideAllFields();
+    hideAllSections();
     const testResultsFields = document.getElementById('test-results-fields');
     testResultsFields.classList.remove('hidden');
     clearGeneratedKeys();
 }
 
 function showNotAvailable() {
-    hideAllFields();
+    hideAllSections();
     const popupFields = document.getElementById('popup-fields');
     const popupImage = document.getElementById('popup-image');
     popupFields.classList.remove('hidden');
@@ -35,9 +35,9 @@ function showNotAvailable() {
     clearGeneratedKeys();
 }
 
-function hideAllFields() {
-    const fields = document.querySelectorAll('.main > div');
-    fields.forEach(field => field.classList.add('hidden'));
+function hideAllSections() {
+    const sections = document.querySelectorAll('.main > div:not(.buttons)');
+    sections.forEach(section => section.classList.add('hidden'));
 }
 
 function clearGeneratedKeys() {
