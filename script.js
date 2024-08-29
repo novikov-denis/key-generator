@@ -36,7 +36,7 @@ function showNotAvailable() {
 }
 
 function hideAllSections() {
-    const sections = document.querySelectorAll('.main > div:not(.buttons)'); // Скрываем только нужные секции
+    const sections = document.querySelectorAll('#assessment-fields, #review-status-fields, #characters-fields, #test-results-fields, #popup-fields');
     sections.forEach(section => section.classList.add('hidden'));
 }
 
