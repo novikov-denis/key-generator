@@ -36,7 +36,7 @@ function showNotAvailable() {
 }
 
 function hideAllSections() {
-    const sections = document.querySelectorAll('.main > div:not(.buttons)');
+    const sections = document.querySelectorAll('.main > div:not(.buttons)'); // Скрываем только нужные секции
     sections.forEach(section => section.classList.add('hidden'));
 }
 
