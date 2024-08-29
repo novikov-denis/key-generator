@@ -69,10 +69,6 @@ function showTestResultsOptions() {
     }
 }
 
-function showNotAvailable() {
-    showNotification('Функция пока не доступна. В следующих обновлениях появится 😎', true);
-}
-
 function generateKeys() {
     const courseSlug = document.getElementById('course-slug').value;
     const moduleCount = parseInt(document.getElementById('module-count').value);
@@ -635,4 +631,72 @@ function showNotification(message, isError = false) {
     setTimeout(() => {
         notification.classList.add('hidden');
     }, 2000);
+}
+function showAssessmentFields() {
+    const assessmentFields = document.getElementById('assessment-fields');
+    assessmentFields.classList.remove('hidden');
+}
+
+function showReviewStatusFields() {
+    const reviewStatusFields = document.getElementById('review-status-fields');
+    reviewStatusFields.classList.remove('hidden');
+}
+
+function showCharactersFields() {
+    const charactersFields = document.getElementById('characters-fields');
+    charactersFields.classList.remove('hidden');
+}
+
+function showTestResultsFields() {
+    const testResultsFields = document.getElementById('test-results-fields');
+    testResultsFields.classList.remove('hidden');
+}
+
+function showNotAvailable() {
+    // Скрываем сообщение о том, что функция в разработке
+    const popupFields = document.getElementById('popup-fields');
+    const popupImage = document.getElementById('popup-image');
+    popupFields.classList.remove('hidden');
+    popupImage.classList.remove('hidden');
+}
+
+function generatePopupKeys() {
+    const slugInput = document.getElementById('popup-course-slug').value.trim();
+    const formattedSlug = formatSlug(slugInput);
+    
+    const keysContainer = document.getElementById('generated-popup-keys');
+    keysContainer.classList.remove('hidden');
+
+    const keys = [
+        { key: `commonGreetingPopup.${formattedSlug}.title`, text: 'Заголовок' },
+        { key: `commonGreetingPopup.${formattedSlug}.description`, text: 'Описание' },
+        { key: `commonGreetingPopup.${formattedSlug}.closeButton`, text: 'Закрывающая кнопка' },
+        { key: `commonGreetingPopup.${formattedSlug}.mainButton`, text: 'Кнопка для перехода' }
+    ];
+
+    const keysHtml = keys.map(item => `
+        <div class="key-row">
+            <input type="text" readonly value="${item.key}" />
+            <input type="text" readonly value="${item.text}" />
+            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+        </div>
+    `).join('');
+
+    keysContainer.querySelector('.keys').innerHTML = keysHtml;
+}
+
+function formatSlug(slug) {
+    return slug.split('-').map((word, index) => {
+        if (index === 0) {
+            return word.toLowerCase();
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join('');
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Скопировано в буфер обмена');
+    });
 }
