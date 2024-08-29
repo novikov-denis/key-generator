@@ -2,30 +2,47 @@
 <html lang="ru">
 <head>
     <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    <script type="text/javascript">
+        (function(m, e, t, r, i, k, a) {
+            m[i] = m[i] || function() {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) { return; }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(98160717, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/98160717" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+        ym(98160717, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/98160717" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
     <!-- Varioqub experiments -->
-<script type="text/javascript">
-(function(e, x, pe, r, i, me, nt){
-e[i]=e[i]||function(){(e[i].a=e[i].a||[]).push(arguments)},
-me=x.createElement(pe),me.async=1,me.src=r,nt=x.getElementsByTagName(pe)[0],me.addEventListener('error',function(){function cb(t){t=t[t.length-1],'function'==typeof t&&t({flags:{}})};Array.isArray(e[i].a)&&e[i].a.forEach(cb);e[i]=function(){cb(arguments)}}),nt.parentNode.insertBefore(me,nt)})
-(window, document, 'script', 'https://abt.s3.yandex.net/expjs/latest/exp.js', 'ymab');
-ymab('metrika.98160717', 'init'/*, {clientFeatures}, {callback}*/);
-</script>
+    <script type="text/javascript">
+        (function(e, x, pe, r, i, me, nt) {
+            e[i] = e[i] || function() {
+                (e[i].a = e[i].a || []).push(arguments)
+            },
+            me = x.createElement(pe), me.async = 1, me.src = r, nt = x.getElementsByTagName(pe)[0], me.addEventListener('error', function() {
+                function cb(t) {
+                    t = t[t.length - 1], 'function' == typeof t && t({
+                        flags: {}
+                    })
+                };
+                Array.isArray(e[i].a) && e[i].a.forEach(cb);
+                e[i] = function() {
+                    cb(arguments)
+                }
+            }), nt.parentNode.insertBefore(me, nt)
+        })(window, document, 'script', 'https://abt.s3.yandex.net/expjs/latest/exp.js', 'ymab');
+        ymab('metrika.98160717', 'init' /*, {clientFeatures}, {callback}*/);
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -104,10 +121,17 @@ ymab('metrika.98160717', 'init'/*, {clientFeatures}, {callback}*/);
             </div>
         </div>
 
-        <div id="generated-keys" class="hidden">
+        <div id="popup-fields" class="hidden">
+            <img id="popup-image" src="popup.png" alt="Popup" class="center-image hidden">
+            <input type="text" id="popup-course-slug" placeholder="Напишите слаг курса">
+            <button onclick="generatePopupKeys()">Сгенерировать ключи 🔑</button>
+        </div>
+
+        <div id="generated-popup-keys" class="hidden">
             <div class="keys">
                 <!-- Generated keys will appear here -->
             </div>
+            <p>Ключи заводим в common кейсетах соответствующих профессий! Текст ключей <strong>не поддерживает</strong> маркдаун и теги. Это означает, что не работают переносы текста на следующую строку (тег &lt;br&gt; также не работает), списки, выделения текста курсивом/болдом, заголовки и т.д.</p>
         </div>
     </main>
 
