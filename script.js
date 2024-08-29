@@ -2,28 +2,28 @@ function showAssessmentFields() {
     hideAllSections();
     const assessmentFields = document.getElementById('assessment-fields');
     assessmentFields.classList.remove('hidden');
-    clearGeneratedKeys();
+    clearGeneratedKeys('generated-keys');
 }
 
 function showReviewStatusFields() {
     hideAllSections();
     const reviewStatusFields = document.getElementById('review-status-fields');
     reviewStatusFields.classList.remove('hidden');
-    clearGeneratedKeys();
+    clearGeneratedKeys('generated-keys');
 }
 
 function showCharactersFields() {
     hideAllSections();
     const charactersFields = document.getElementById('characters-fields');
     charactersFields.classList.remove('hidden');
-    clearGeneratedKeys();
+    clearGeneratedKeys('generated-keys');
 }
 
 function showTestResultsFields() {
     hideAllSections();
     const testResultsFields = document.getElementById('test-results-fields');
     testResultsFields.classList.remove('hidden');
-    clearGeneratedKeys();
+    clearGeneratedKeys('generated-keys');
 }
 
 function showNotAvailable() {
@@ -32,7 +32,7 @@ function showNotAvailable() {
     const popupImage = document.getElementById('popup-image');
     popupFields.classList.remove('hidden');
     popupImage.classList.remove('hidden');
-    clearGeneratedKeys();
+    clearGeneratedKeys('generated-popup-keys');
 }
 
 function hideAllSections() {
@@ -40,13 +40,12 @@ function hideAllSections() {
     sections.forEach(section => section.classList.add('hidden'));
 }
 
-function clearGeneratedKeys() {
-    const keysContainers = document.querySelectorAll('.keys');
-    keysContainers.forEach(container => {
-        container.innerHTML = '';  // Очищаем содержимое сгенерированных ключей
-    });
-    const generatedSections = document.querySelectorAll('#generated-keys, #generated-popup-keys');
-    generatedSections.forEach(section => section.classList.add('hidden'));  // Скрываем блоки с сгенерированными ключами
+function clearGeneratedKeys(containerId) {
+    const keysContainer = document.getElementById(containerId);
+    if (keysContainer) {
+        keysContainer.querySelector('.keys').innerHTML = '';  // Очищаем содержимое сгенерированных ключей
+        keysContainer.classList.add('hidden');  // Скрываем блок с сгенерированными ключами
+    }
 }
 
 function generateKeys() {
@@ -61,16 +60,24 @@ function generateKeys() {
     for (let i = 0; i < moduleCount; i++) {
         keysHtml += `
             <div class="key-row">
-                <input type="text" readonly value="${formattedSlug}.${i + 1}.moduleTitle" />
-                <input type="text" readonly value="${moduleNames[i] || 'Название модуля'}" />
-                <button class="copy-button" onclick="copyToClipboard('${formattedSlug}.${i + 1}.moduleTitle')">Копировать ключ</button>
-                <button class="copy-button" onclick="copyToClipboard('${moduleNames[i] || 'Название модуля'}')">Копировать текст</button>
+                <div class="key-item">
+                    <input type="text" readonly value="${formattedSlug}.${i + 1}.moduleTitle" />
+                    <button class="copy-button" onclick="copyToClipboard('${formattedSlug}.${i + 1}.moduleTitle')">Копировать ключ</button>
+                </div>
+                <div class="key-item">
+                    <input type="text" readonly value="${moduleNames[i] || 'Название модуля'}" />
+                    <button class="copy-button" onclick="copyToClipboard('${moduleNames[i] || 'Название модуля'}')">Копировать текст</button>
+                </div>
             </div>
             <div class="key-row">
-                <input type="text" readonly value="${formattedSlug}.${i + 1}.moduleLink" />
-                <input type="text" readonly value="${courseLinks[i] || 'Ссылка на ассессмент'}" />
-                <button class="copy-button" onclick="copyToClipboard('${formattedSlug}.${i + 1}.moduleLink')">Копировать ключ</button>
-                <button class="copy-button" onclick="copyToClipboard('${courseLinks[i] || 'Ссылка на ассессмент'}')">Копировать текст</button>
+                <div class="key-item">
+                    <input type="text" readonly value="${formattedSlug}.${i + 1}.moduleLink" />
+                    <button class="copy-button" onclick="copyToClipboard('${formattedSlug}.${i + 1}.moduleLink')">Копировать ключ</button>
+                </div>
+                <div class="key-item">
+                    <input type="text" readonly value="${courseLinks[i] || 'Ссылка на ассессмент'}" />
+                    <button class="copy-button" onclick="copyToClipboard('${courseLinks[i] || 'Ссылка на ассессмент'}')">Копировать текст</button>
+                </div>
             </div>
         `;
     }
@@ -91,10 +98,14 @@ function generateReviewKeys() {
 
     const keysHtml = keys.map(item => `
         <div class="key-row">
-            <input type="text" readonly value="${item.key}" />
-            <input type="text" readonly value="${item.text}" />
-            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
-            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            <div class="key-item">
+                <input type="text" readonly value="${item.key}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            </div>
+            <div class="key-item">
+                <input type="text" readonly value="${item.text}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            </div>
         </div>
     `).join('');
 
@@ -115,10 +126,14 @@ function generateCharacterKeys() {
 
     const keysHtml = keys.map(item => `
         <div class="key-row">
-            <input type="text" readonly value="${item.key}" />
-            <input type="text" readonly value="${item.text}" />
-            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
-            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            <div class="key-item">
+                <input type="text" readonly value="${item.key}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            </div>
+            <div class="key-item">
+                <input type="text" readonly value="${item.text}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            </div>
         </div>
     `).join('');
 
@@ -137,10 +152,14 @@ function generateTestResultsOpenEntranceKeys() {
 
     const keysHtml = keys.map(item => `
         <div class="key-row">
-            <input type="text" readonly value="${item.key}" />
-            <input type="text" readonly value="${item.text}" />
-            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
-            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            <div class="key-item">
+                <input type="text" readonly value="${item.key}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            </div>
+            <div class="key-item">
+                <input type="text" readonly value="${item.text}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            </div>
         </div>
     `).join('');
 
@@ -159,10 +178,14 @@ function generateTestResultsOpenExitKeys() {
 
     const keysHtml = keys.map(item => `
         <div class="key-row">
-            <input type="text" readonly value="${item.key}" />
-            <input type="text" readonly value="${item.text}" />
-            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
-            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            <div class="key-item">
+                <input type="text" readonly value="${item.key}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            </div>
+            <div class="key-item">
+                <input type="text" readonly value="${item.text}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            </div>
         </div>
     `).join('');
 
@@ -181,10 +204,14 @@ function generateTestResultsDisplayEntranceKeys() {
 
     const keysHtml = keys.map(item => `
         <div class="key-row">
-            <input type="text" readonly value="${item.key}" />
-            <input type="text" readonly value="${item.text}" />
-            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
-            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            <div class="key-item">
+                <input type="text" readonly value="${item.key}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            </div>
+            <div class="key-item">
+                <input type="text" readonly value="${item.text}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            </div>
         </div>
     `).join('');
 
@@ -203,10 +230,14 @@ function generateTestResultsDisplayExitKeys() {
 
     const keysHtml = keys.map(item => `
         <div class="key-row">
-            <input type="text" readonly value="${item.key}" />
-            <input type="text" readonly value="${item.text}" />
-            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
-            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            <div class="key-item">
+                <input type="text" readonly value="${item.key}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            </div>
+            <div class="key-item">
+                <input type="text" readonly value="${item.text}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            </div>
         </div>
     `).join('');
 
@@ -231,14 +262,31 @@ function generatePopupKeys() {
 
     const keysHtml = keys.map(item => `
         <div class="key-row">
-            <input type="text" readonly value="${item.key}" />
-            <input type="text" readonly value="${item.text}" />
-            <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
-            <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            <div class="key-item">
+                <input type="text" readonly value="${item.key}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.key}')">Копировать ключ</button>
+            </div>
+            <div class="key-item">
+                <input type="text" readonly value="${item.text}" />
+                <button class="copy-button" onclick="copyToClipboard('${item.text}')">Копировать текст</button>
+            </div>
         </div>
     `).join('');
 
     keysContainer.querySelector('.keys').innerHTML = keysHtml;
+}
+
+function showTestResultsOptions() {
+    const selectedOption = document.getElementById('test-results-type').value;
+
+    // Сначала скрываем все
+    const options = document.querySelectorAll('#test-results-open-entrance-fields, #test-results-open-exit-fields, #test-results-display-entrance-fields, #test-results-display-exit-fields');
+    options.forEach(option => option.classList.add('hidden'));
+
+    // Затем показываем выбранный
+    if (selectedOption) {
+        document.getElementById(`test-results-${selectedOption}-fields`).classList.remove('hidden');
+    }
 }
 
 function formatSlug(slug) {
