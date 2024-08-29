@@ -2,24 +2,28 @@ function showAssessmentFields() {
     hideAllFields();
     const assessmentFields = document.getElementById('assessment-fields');
     assessmentFields.classList.remove('hidden');
+    clearGeneratedKeys();
 }
 
 function showReviewStatusFields() {
     hideAllFields();
     const reviewStatusFields = document.getElementById('review-status-fields');
     reviewStatusFields.classList.remove('hidden');
+    clearGeneratedKeys();
 }
 
 function showCharactersFields() {
     hideAllFields();
     const charactersFields = document.getElementById('characters-fields');
     charactersFields.classList.remove('hidden');
+    clearGeneratedKeys();
 }
 
 function showTestResultsFields() {
     hideAllFields();
     const testResultsFields = document.getElementById('test-results-fields');
     testResultsFields.classList.remove('hidden');
+    clearGeneratedKeys();
 }
 
 function showNotAvailable() {
@@ -28,11 +32,21 @@ function showNotAvailable() {
     const popupImage = document.getElementById('popup-image');
     popupFields.classList.remove('hidden');
     popupImage.classList.remove('hidden');
+    clearGeneratedKeys();
 }
 
 function hideAllFields() {
-    const fields = document.querySelectorAll('.hidden');
+    const fields = document.querySelectorAll('.main > div');
     fields.forEach(field => field.classList.add('hidden'));
+}
+
+function clearGeneratedKeys() {
+    const keysContainers = document.querySelectorAll('.keys');
+    keysContainers.forEach(container => {
+        container.innerHTML = '';  // Очищаем содержимое сгенерированных ключей
+    });
+    const generatedSections = document.querySelectorAll('#generated-keys, #generated-popup-keys');
+    generatedSections.forEach(section => section.classList.add('hidden'));  // Скрываем блоки с сгенерированными ключами
 }
 
 function generateKeys() {
