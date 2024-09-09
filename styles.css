@@ -46,19 +46,27 @@ body {
 }
 
 .main {
-    padding: 20px;
+    padding: 30px;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 .buttons button {
     background-color: #42A663;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     margin: 10px 0;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-family: 'YS Text', Arial, sans-serif;
-    width: 100%;
+    width: auto;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.buttons button:hover {
+    background-color: #369655;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #assessment-fields input, #assessment-fields textarea,
@@ -68,29 +76,34 @@ body {
     display: block;
     width: 100%;
     margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
     font-family: 'YS Text', Arial, sans-serif;
     box-sizing: border-box;
+    background-color: #fafafa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-#generated-keys .keys {
-    display: flex;
-    flex-direction: column;
+#assessment-fields input:focus, #assessment-fields textarea:focus,
+#review-status-fields input:focus, #characters-fields input:focus,
+#test-results-open-entrance-fields input:focus, #test-results-open-exit-fields input:focus,
+#test-results-display-entrance-fields input:focus, #test-results-display-exit-fields input:focus {
+    border-color: #42A663;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .key-row {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-    background-color: white;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
     margin: 10px 0;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 8px;
     font-family: 'YS Text', Arial, sans-serif;
-    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .key-row input[type="text"] {
@@ -104,12 +117,38 @@ body {
 .key-row .copy-text-button {
     background-color: #42A663;
     color: white;
-    padding: 5px 10px;
+    padding: 8px 16px; /* Уменьшаем размер кнопок */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 10px;
     font-family: 'YS Text', Arial, sans-serif;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Добавляем отступ между кнопкой "Скопировать ключ" и полем с текстом */
+.key-row input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px; /* Добавляем отступ после поля */
+    font-size: 14px;
+    font-family: 'YS Text', Arial, sans-serif;
+}
+
+.key-row .copy-button {
+    margin-right: 10px; /* Отступ между кнопкой и полем текста */
+}
+
+/* Hover эффект для кнопок */
+.key-row .copy-button:hover,
+.key-row .copy-text-button:hover {
+    background-color: #369655;  /* Темный оттенок при наведении */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Добавляем тень */
+}
+
+.key-row .copy-button:hover,
+.key-row .copy-text-button:hover {
+    background-color: #369655;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .hidden {
@@ -148,7 +187,10 @@ body {
 
 .footer {
     background-color: #42A663;
-    padding: 10px 0;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+    font-size: 14px;
 }
 
 .marquee {
@@ -187,7 +229,7 @@ body {
     }
     100% {
         -moz-transform: translate(-100%, 0);
-        transform: translate(-100%, 0);
+        transform: translate(0, 0);
     }
 }
 
@@ -236,5 +278,9 @@ body {
     .header-right .button {
         padding: 8px 16px;
         font-size: 12px;
+    }
+
+    .main {
+        padding: 20px;
     }
 }
