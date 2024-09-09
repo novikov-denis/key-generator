@@ -1,85 +1,110 @@
-function checkPassword() {
-    const passwordInput = document.getElementById('password-input').value;
-    const errorMessage = document.getElementById('error-message');
-
-    if (passwordInput === 'practicum') {
-        document.getElementById('loading-screen').style.display = 'none';
-    } else {
-        errorMessage.classList.remove('hidden');
-    }
+function hideAllSections() {
+    document.getElementById('assessment-fields').classList.add('hidden');
+    document.getElementById('popup-fields').classList.add('hidden');
+    document.getElementById('review-status-fields').classList.add('hidden');
+    document.getElementById('characters-fields').classList.add('hidden');
+    document.getElementById('test-results-fields').classList.add('hidden');
 }
 
 function showAssessmentFields() {
+    hideAllSections();
     document.getElementById('assessment-fields').classList.remove('hidden');
-    document.getElementById('review-status-fields').classList.add('hidden');
-    document.getElementById('characters-fields').classList.add('hidden');
-    document.getElementById('test-results-fields').classList.add('hidden');
-    document.getElementById('assessment-image').classList.remove('hidden');  // Показываем картинку "ass.png"
+}
+
+function showPopupFields() {
+    hideAllSections();
+    document.getElementById('popup-fields').classList.remove('hidden');
 }
 
 function showReviewStatusFields() {
+    hideAllSections();
     document.getElementById('review-status-fields').classList.remove('hidden');
-    document.getElementById('assessment-fields').classList.add('hidden');
-    document.getElementById('characters-fields').classList.add('hidden');
-    document.getElementById('test-results-fields').classList.add('hidden');
-    document.getElementById('assessment-image').classList.add('hidden');  // Прячем картинку "ass.png", если она была показана
 }
 
 function showCharactersFields() {
+    hideAllSections();
     document.getElementById('characters-fields').classList.remove('hidden');
-    document.getElementById('assessment-fields').classList.add('hidden');
-    document.getElementById('review-status-fields').classList.add('hidden');
-    document.getElementById('test-results-fields').classList.add('hidden');
-    document.getElementById('assessment-image').classList.add('hidden');  // Прячем картинку "ass.png", если она была показана
 }
 
 function showTestResultsFields() {
+    hideAllSections();
     document.getElementById('test-results-fields').classList.remove('hidden');
-    document.getElementById('assessment-fields').classList.add('hidden');
-    document.getElementById('review-status-fields').classList.add('hidden');
-    document.getElementById('characters-fields').classList.add('hidden');
-    document.getElementById('assessment-image').classList.add('hidden');  // Прячем картинку "ass.png", если она была показана
 }
 
-function showTestResultsOptions() {
-    const selectedOption = document.getElementById('test-results-type').value;
-    const testResultsImage = document.getElementById('test-results-image');
-    document.getElementById('test-results-open-entrance-fields').classList.add('hidden');
-    document.getElementById('test-results-open-exit-fields').classList.add('hidden');
-    document.getElementById('test-results-display-entrance-fields').classList.add('hidden');
-    document.getElementById('test-results-display-exit-fields').classList.add('hidden');
-    testResultsImage.classList.add('hidden');
+function transformCourseSlug(slug) {
+    return slug.split('-').map((word, index) => {
+        return index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1);
+    }).join('');
+}
 
-    if (selectedOption === 'open-entrance') {
-        testResultsImage.src = 'test_enter.png';
-        testResultsImage.classList.remove('hidden');
-        document.getElementById('test-results-open-entrance-fields').classList.remove('hidden');
-    } else if (selectedOption === 'open-exit') {
-        testResultsImage.src = 'test_exit.png';
-        testResultsImage.classList.remove('hidden');
-        document.getElementById('test-results-open-exit-fields').classList.remove('hidden');
-    } else if (selectedOption === 'display-entrance') {
-        testResultsImage.src = 'enter.png';
-        testResultsImage.classList.remove('hidden');
-        document.getElementById('test-results-display-entrance-fields').classList.remove('hidden');
-    } else if (selectedOption === 'display-exit') {
-        testResultsImage.src = 'exit.png';
-        testResultsImage.classList.remove('hidden');
-        document.getElementById('test-results-display-exit-fields').classList.remove('hidden');
+// Генерация ключей для Попапа
+function generatePopupKeys() {
+    const courseSlugInput = document.getElementById('course-slug-popup').value;
+    const errorMessage = 'Не заполнены все поля 👀';
+    const keyContainer = document.getElementById('popup-generated-keys');
+    const keysDiv = keyContainer.querySelector('.keys');
+    keysDiv.innerHTML = '';
+
+    if (!courseSlugInput) {
+        showNotification(errorMessage, true);
+        return;
     }
+
+    const courseSlug = transformCourseSlug(courseSlugInput);
+
+    const popupKeys = [
+        { key: `commonGreetingPopup.${courseSlug}.title`, text: 'Заголовок' },
+        { key: `commonGreetingPopup.${courseSlug}.description`, text: 'Описание' },
+        { key: `commonGreetingPopup.${courseSlug}.closeButton`, text: 'Кнопка (В другой раз)' },
+        { key: `commonGreetingPopup.${courseSlug}.mainButton`, text: 'Кнопка действия' }
+    ];
+
+    popupKeys.forEach(({ key, text }) => {
+        const keyRow = document.createElement('div');
+        keyRow.classList.add('key-row');
+
+        const keyField = document.createElement('input');
+        keyField.type = 'text';
+        keyField.value = key;
+        keyField.readOnly = true;
+
+        const copyKeyButton = document.createElement('button');
+        copyKeyButton.classList.add('copy-button');
+        copyKeyButton.textContent = 'Скопировать ключ';
+        copyKeyButton.onclick = () => copyToClipboard(key);
+
+        const descriptionField = document.createElement('input');
+        descriptionField.type = 'text';
+        descriptionField.value = text;
+        descriptionField.readOnly = true;
+
+        const copyTextButton = document.createElement('button');
+        copyTextButton.classList.add('copy-text-button');
+        copyTextButton.textContent = 'Скопировать текст';
+        copyTextButton.onclick = () => {
+            copyToClipboard(text);
+            showNotification('Текст успешно скопирован в буфер обмена');
+        };
+
+        keyRow.appendChild(keyField);
+        keyRow.appendChild(copyKeyButton);
+        keyRow.appendChild(descriptionField);
+        keyRow.appendChild(copyTextButton);
+
+        keysDiv.appendChild(keyRow);
+    });
+
+    keyContainer.classList.remove('hidden');
 }
 
-function showNotAvailable() {
-    showNotification('Функция пока не доступна. В следующих обновлениях появится 😎', true);
-}
-
+// Генерация ключей для Ассессментов
 function generateKeys() {
     const courseSlug = document.getElementById('course-slug').value;
     const moduleCount = parseInt(document.getElementById('module-count').value);
     const courseLinks = document.getElementById('course-links').value.split('\n');
     const moduleNames = document.getElementById('module-names').value.split('\n');
 
-    const keyContainer = document.getElementById('generated-keys');
+    const keyContainer = document.getElementById('assessment-generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
@@ -90,6 +115,11 @@ function generateKeys() {
 
     courseLinks.forEach((link, index) => {
         const lessonId = extractLessonId(link);
+
+        // Добавляем подзаголовок с названием модуля
+        const moduleTitle = document.createElement('h3');
+        moduleTitle.textContent = `Модуль: ${moduleNames[index]}`;
+        keysDiv.appendChild(moduleTitle);
 
         const keys = [
             `assessmentsFeedback.assessment.${lessonId}.grade.average.recommendationCard.1.link`,
@@ -141,9 +171,10 @@ function generateKeys() {
     keyContainer.classList.remove('hidden');
 }
 
+// Генерация ключей для Статусов ревью
 function generateReviewKeys() {
     const professionSlug = document.getElementById('profession-slug').value;
-    const keyContainer = document.getElementById('generated-keys');
+    const keyContainer = document.getElementById('review-generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
@@ -152,62 +183,11 @@ function generateReviewKeys() {
         return;
     }
 
-    const reviewSLAKey = `reviewStatus.${professionSlug}.reviewSLA`;
-    const reviewSLADescription = 'В танкере укажите кол-во часов для проверки работы';
-
     const reviewKeys = [
-        {
-            key: `proficiency.review.status.${professionSlug}.taskWaitsReview`,
-            description: `Задание отправлено и ожидает проверки.<br>Обычно проверка задания занимает не более 24 часов.`
-        },
-        {
-            key: `proficiency.review.status.${professionSlug}.reviewInProcess`,
-            description: `Работа отправлена на ревью.<br>Проверка займёт не больше 24 часов. Если сутки прошли, а работа всё ещё не проверена, напишите куратору.`
-        },
-        {
-            key: `proficiency.review.status.${professionSlug}.testsPassed`,
-            description: `Тесты пройдены, и задание ожидает ревью.<br>Обычно проверка занимает не более 24 часов.`
-        }
+        { key: `proficiency.review.status.${professionSlug}.taskWaitsReview`, description: 'Задание ожидает проверки.' },
+        { key: `proficiency.review.status.${professionSlug}.reviewInProcess`, description: 'Задание на проверке.' },
+        { key: `proficiency.review.status.${professionSlug}.testsPassed`, description: 'Тесты пройдены, ожидается ревью.' }
     ];
-
-    // Create and append review SLA key and description
-    const reviewSLARow = document.createElement('div');
-    reviewSLARow.classList.add('key-row');
-
-    const reviewSLAField = document.createElement('input');
-    reviewSLAField.type = 'text';
-    reviewSLAField.value = reviewSLAKey;
-    reviewSLAField.readOnly = true;
-
-    const copySLAButton = document.createElement('button');
-    copySLAButton.classList.add('copy-button');
-    copySLAButton.textContent = 'Скопировать ключ';
-    copySLAButton.onclick = () => copyToClipboard(reviewSLAKey);
-
-    const reviewSLADescriptionField = document.createElement('input');
-    reviewSLADescriptionField.type = 'text';
-    reviewSLADescriptionField.value = reviewSLADescription;
-    reviewSLADescriptionField.readOnly = true;
-
-    const copySLADescriptionButton = document.createElement('button');
-    copySLADescriptionButton.classList.add('copy-text-button');
-    copySLADescriptionButton.textContent = 'Скопировать текст ключа';
-    copySLADescriptionButton.onclick = () => {
-        copyToClipboard(reviewSLADescription);
-        showNotification('Текст ключа успешно скопирован в буфер обмена');
-    };
-
-    reviewSLARow.appendChild(reviewSLAField);
-    reviewSLARow.appendChild(copySLAButton);
-    reviewSLARow.appendChild(reviewSLADescriptionField);
-    reviewSLARow.appendChild(copySLADescriptionButton);
-
-    keysDiv.appendChild(document.createTextNode('🔑 Ключ, который меняет только количество часов ревью:'));
-    keysDiv.appendChild(reviewSLARow);
-
-    // Create and append review text keys and descriptions
-    keysDiv.appendChild(document.createTextNode('🔑 Ключи, которые меняют текст при ревью:'));
-    keysDiv.appendChild(document.createTextNode('Если вам нужно настроить текст с SLA для всех работ профессии:'));
 
     reviewKeys.forEach(({ key, description }) => {
         const keyRow = document.createElement('div');
@@ -230,10 +210,10 @@ function generateReviewKeys() {
 
         const copyTextButton = document.createElement('button');
         copyTextButton.classList.add('copy-text-button');
-        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.textContent = 'Скопировать текст';
         copyTextButton.onclick = () => {
             copyToClipboard(description);
-            showNotification('Текст ключа успешно скопирован в буфер обмена');
+            showNotification('Текст успешно скопирован в буфер обмена');
         };
 
         keyRow.appendChild(keyField);
@@ -247,12 +227,13 @@ function generateReviewKeys() {
     keyContainer.classList.remove('hidden');
 }
 
+// Генерация ключей для Персонажей
 function generateCharacterKeys() {
     const characterTag = document.getElementById('character-tag').value;
     const characterName = document.getElementById('character-name').value;
     const characterAvatar = document.getElementById('character-avatar').value;
 
-    const keyContainer = document.getElementById('generated-keys');
+    const keyContainer = document.getElementById('characters-generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
@@ -262,17 +243,9 @@ function generateCharacterKeys() {
     }
 
     const characterKeys = [
-        {
-            key: `dialog.characters.${characterTag}.name`,
-            description: characterName
-        },
-        {
-            key: `dialog.characters.${characterTag}.avatar`,
-            description: characterAvatar
-        }
+        { key: `dialog.characters.${characterTag}.name`, description: characterName },
+        { key: `dialog.characters.${characterTag}.avatar`, description: characterAvatar }
     ];
-
-    keysDiv.appendChild(document.createTextNode('🔑 Сгенерированные ключи персонажей:'));
 
     characterKeys.forEach(({ key, description }) => {
         const keyRow = document.createElement('div');
@@ -295,7 +268,7 @@ function generateCharacterKeys() {
 
         const copyTextButton = document.createElement('button');
         copyTextButton.classList.add('copy-text-button');
-        copyTextButton.textContent = 'Скопировать текст ключа';
+        copyTextButton.textContent = 'Скопировать текст';
         copyTextButton.onclick = () => {
             copyToClipboard(description);
             showNotification('Текст ключа успешно скопирован в буфер обмена');
@@ -312,9 +285,38 @@ function generateCharacterKeys() {
     keyContainer.classList.remove('hidden');
 }
 
+// Генерация ключей для Результатов тестов
+function showTestResultsOptions() {
+    const selectedOption = document.getElementById('test-results-type').value;
+    const testResultsImage = document.getElementById('test-results-image');
+    document.getElementById('test-results-open-entrance-fields').classList.add('hidden');
+    document.getElementById('test-results-open-exit-fields').classList.add('hidden');
+    document.getElementById('test-results-display-entrance-fields').classList.add('hidden');
+    document.getElementById('test-results-display-exit-fields').classList.add('hidden');
+    testResultsImage.classList.add('hidden');
+
+    if (selectedOption === 'open-entrance') {
+        testResultsImage.src = 'test_enter.png';
+        testResultsImage.classList.remove('hidden');
+        document.getElementById('test-results-open-entrance-fields').classList.remove('hidden');
+    } else if (selectedOption === 'open-exit') {
+        testResultsImage.src = 'test_exit.png';
+        testResultsImage.classList.remove('hidden');
+        document.getElementById('test-results-open-exit-fields').classList.remove('hidden');
+    } else if (selectedOption === 'display-entrance') {
+        testResultsImage.src = 'enter.png';
+        testResultsImage.classList.remove('hidden');
+        document.getElementById('test-results-display-entrance-fields').classList.remove('hidden');
+    } else if (selectedOption === 'display-exit') {
+        testResultsImage.src = 'exit.png';
+        testResultsImage.classList.remove('hidden');
+        document.getElementById('test-results-display-exit-fields').classList.remove('hidden');
+    }
+}
+
 function generateTestResultsOpenEntranceKeys() {
     const professionSlug = document.getElementById('test-results-open-entrance-profession-slug').value;
-    const keyContainer = document.getElementById('generated-keys');
+    const keyContainer = document.getElementById('test-results-generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
@@ -384,7 +386,7 @@ function generateTestResultsOpenEntranceKeys() {
 
 function generateTestResultsOpenExitKeys() {
     const professionSlug = document.getElementById('test-results-open-exit-profession-slug').value;
-    const keyContainer = document.getElementById('generated-keys');
+    const keyContainer = document.getElementById('test-results-generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
@@ -454,7 +456,7 @@ function generateTestResultsOpenExitKeys() {
 
 function generateTestResultsDisplayEntranceKeys() {
     const professionSlug = document.getElementById('test-results-display-entrance-profession-slug').value;
-    const keyContainer = document.getElementById('generated-keys');
+    const keyContainer = document.getElementById('test-results-generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
@@ -520,7 +522,7 @@ function generateTestResultsDisplayEntranceKeys() {
 
 function generateTestResultsDisplayExitKeys() {
     const professionSlug = document.getElementById('test-results-display-exit-profession-slug').value;
-    const keyContainer = document.getElementById('generated-keys');
+    const keyContainer = document.getElementById('test-results-generated-keys');
     const keysDiv = keyContainer.querySelector('.keys');
     keysDiv.innerHTML = '';
 
@@ -580,6 +582,27 @@ function generateTestResultsDisplayExitKeys() {
     keyContainer.classList.remove('hidden');
 }
 
+function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    showNotification('Ключ успешно скопирован в буфер обмена');
+}
+
+function showNotification(message, isError = false) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.classList.remove('hidden');
+    notification.classList.toggle('error', isError);
+    setTimeout(() => {
+        notification.classList.add('hidden');
+    }, 2000);
+}
+
 function extractLessonId(link) {
     const regex = /lessons\/([a-z0-9-]+)\//;
     const match = link.match(regex);
@@ -614,25 +637,4 @@ function generateDescription(index, courseSlug, moduleName, moduleIndex) {
         default:
             return '';
     }
-}
-
-function copyToClipboard(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-
-    showNotification('Ключ успешно скопирован в буфер обмена');
-}
-
-function showNotification(message, isError = false) {
-    const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.classList.remove('hidden');
-    notification.classList.toggle('error', isError);
-    setTimeout(() => {
-        notification.classList.add('hidden');
-    }, 2000);
 }
