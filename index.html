@@ -25,6 +25,7 @@
             <button onclick="showReviewStatusFields()">Статусы ревью</button>
             <button onclick="showCharactersFields()">Персонажи</button>
             <button onclick="showTestResultsFields()">Окно с результатами тестов</button>
+            <button onclick="showGoshanFields()">Обновить Гошан</button>
         </div>
 
         <!-- Ассессменты -->
@@ -41,6 +42,39 @@
                     <!-- Сгенерированные ключи ассесментов появятся здесь -->
                 </div>
             </div>
+        </div>
+
+        <!--Обновить Гошан-->
+        <div id="goshan-fields" class="hidden">
+            <div class="row-container" id="upper">
+                <div class="row-container">
+                    <img id="goshan-image" src="goshan.png" alt="Goshan Image" class="center-image">
+                </div>
+                
+                <div class="row-container">
+                    <textarea id="goshan-update-info" placeholder="Здесь будет информация об ошибках или успехе" readonly></textarea>
+                    <button onclick="updateGoshan()">Обновить Гошан</button>
+                </div>    
+
+            </div>
+            <div class="container">
+                <textarea oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'" id="goshan-new-data" placeholder="Вставь новые данные для обновления Гошана в формате как на изображении сверху"></textarea>
+                <textarea oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'" id="course-slugs" placeholder="Вставь слаги курсов через пробел"></textarea>
+            </div>
+            
+            <div class="row-container">
+               <div class="notice" id="goshan-notice">
+                    Старый конфиг Гошана
+                </div>
+                <div class="notice" id="goshan-notice">
+                    Новый конфиг Гошана
+                </div>
+            </div>
+            <div class="row-container">
+                <textarea oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'" id="goshan-old-config" placeholder="Вставь текущий конфиг Гошана"></textarea>
+                <textarea oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'" id="goshan-new-config" placeholder="Отсюда заберешь новый конфиг Гошана" readonly></textarea>
+            </div>
+
         </div>
 
         <!-- Попап -->
