@@ -609,7 +609,7 @@ function tryParseJson(raw, fieldName) {
         return {
             ok: true,
             data: JSON.parse(raw)
-    };
+        };
     } catch (error) {
         return {
             ok: false, 
@@ -628,12 +628,14 @@ function validateOldConfigStructure(oldConfig) {
             isValid: false,
             error: 'Старый конфиг должен быть полностью скопирован из Гошана'
         };
-    } else if (!(Object.hasOwn(oldConfig, 'params'))) {
+    }
+    if (!(Object.hasOwn(oldConfig, 'params'))) {
         return {
             isValid: false,
             error: "Убедитесь, что старый конфиг скопирован полностью: не хватает поля params"
         };
-    } else if (!Object.hasOwn(oldConfig.params, 'default')) {
+    }
+    if (!Object.hasOwn(oldConfig.params, 'default')) {
         return {
             isValid: false,
             error: "Убедитесь, что старый конфиг скопирован полностью: не хватает поля default внутри params"
@@ -642,13 +644,13 @@ function validateOldConfigStructure(oldConfig) {
 
     return {isValid: true}
 
-}
+    }
 
 function validateNewData(newData) {
     if (!isPlainObject(newData)) {
         return {
             isValid: false,
-            errorMessage: "Заполни поле новыми данными в формате как на изображении сверху"
+            error: "Заполни поле новыми данными в формате как на изображении сверху"
         }
     }
 
@@ -658,7 +660,7 @@ function validateNewData(newData) {
         if (!Object.hasOwn(newData, field)) {
             return {
                 isValid: false,
-                errorMessage: `Поле ${field} должно быть в обновляемых данных`
+                error: `Поле ${field} должно быть в обновляемых данных`
             }
         } 
     }
@@ -704,7 +706,7 @@ function validateFormData(formdata) {
     if (!newDataCheck.isValid) {
         return {
             isValid: false,
-            errorMessage: newDataCheck.errorMessage
+            errorMessage: newDataCheck.error
         };
     }
 
