@@ -1,3 +1,5 @@
+const { jsx } = require("react/jsx-runtime");
+
 function hideAllSections() {
     document.getElementById('assessment-fields').classList.add('hidden');
     document.getElementById('popup-fields').classList.add('hidden');
@@ -602,64 +604,154 @@ function setGoshanStatus(message, isError = false) {
     status.classList.toggle('status-success', !isError);
 }
 
-function parseGoshanJson(raw, fieldName) {
+function tryParseJson(raw, fieldName) {
     try {
-        return { value: JSON.parse(raw) };
+        return {
+            ok: true,
+            data: JSON.parse(raw)
+    };
     } catch (error) {
-        return { error: `Поле «${fieldName}» — не валидный JSON: ${error.message}` };
+        return {
+            ok: false, 
+            error: `Поле «${fieldName}» — не валидный JSON: ${error.message}` 
+        };
+    }
+}
+
+function isPlainObject(value) {
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function validateOldConfigStructure(oldConfig) {
+    if (!isPlainObject(oldConfig)) {
+        return {
+            isValid: false,
+            error: 'Старый конфиг должен быть полностью скопирован из Гошана'
+        };
+    } else if (!(Object.hasOwn(oldConfig, 'params'))) {
+        return {
+            isValid: false,
+            error: "Убедитесь, что старый конфиг скопирован полностью: не хватает поля params"
+        };
+    } else if (!Object.hasOwn(oldConfig.params, 'default')) {
+        return {
+            isValid: false,
+            error: "Убедитесь, что старый конфиг скопирован полностью: не хватает поля default внутри params"
+        };
+    }
+
+    return {isValid: true}
+
+}
+
+function validateNewData(newData) {
+    if (!isPlainObject(newData)) {
+        return {
+            isValid: false,
+            errorMessage: "Заполни поле новыми данными в формате как на изображении сверху"
+        }
+    }
+
+    const arrayOfFields = ['hasCloseBtn', 'showDelayInMinutes', 'name', 'buttonLinkSrc', 'imgSrc', 'hasCustomText'];
+
+    for (const field of arrayOfFields) {
+        if (!Object.hasOwn(newData, field)) {
+            return {
+                isValid: false,
+                errorMessage: `Поле ${field} должно быть в обновляемых данных`
+            }
+        } 
+    }
+
+    return {
+        isValid: true
+    }
+
+    
+}
+
+function validateFormData(formdata) {
+    const {newDataRaw, slugsRaw, oldConfigRaw } = formdata;
+
+    if (!newDataRaw || !slugsRaw || !oldConfigRaw) {
+        return {
+            isValid: false,
+            errorMessage: 'Заполни все поля: новые данные, слаги курсов и текущий конфиг Гошана 👀'
+        };
+    }
+
+    const newDataResult = tryParseJson(formdata.newDataRaw, 'Новые данные для обновления Гошана');
+    if (!newDataResult.ok) {
+        return {
+            isValid: false,
+            errorMessage: newDataResult.error
+        };
+    }
+
+    const oldConfigResult = tryParseJson(formdata.oldConfigRaw, 'Старый конфиг Гошана');
+
+    if (!oldConfigResult.ok) {
+        return {
+            isValid: false,
+            errorMessage: oldConfigResult.error
+        };
+    }
+
+    const newData = newDataResult.data;
+    const oldConfig = oldConfigResult.data;
+
+    const newDataCheck = validateNewData(newData);
+    if (!newDataCheck.isValid) {
+        return {
+            isValid: false,
+            errorMessage: newDataCheck.errorMessage
+        };
+    }
+
+    const oldConfigCheck = validateOldConfigStructure(oldConfig);
+    if (!oldConfigCheck.isValid) {
+        return {isValid: false, errorMessage: oldConfigCheck.error};
+    }
+
+    
+    return {
+        isValid: true,
+        errorMessage: "",
+        data: {
+            newData,
+            oldConfig,
+            slugs: slugsRaw.split(/\s+/).filter(Boolean)
+        }
+    }
+}
+
+function readGoshanFormData() {
+    return {
+        newDataRaw: document.getElementById('goshan-new-data').value.trim(),
+        slugsRaw: document.getElementById('goshan-slugs').value.trim(),
+        oldConfigRaw: document.getElementById('goshan-old-config').value.trim()
     }
 }
 
 function updateGoshan() {
-    const newDataRaw = document.getElementById('goshan-new-data').value.trim();
-    const slugsRaw = document.getElementById('goshan-slugs').value.trim();
-    const oldConfigRaw = document.getElementById('goshan-old-config').value.trim();
     const newConfigField = document.getElementById('goshan-new-config');
     newConfigField.value = '';
 
-    if (!newDataRaw || !slugsRaw || !oldConfigRaw) {
-        setGoshanStatus('Заполни все поля: новые данные, слаги курсов и текущий конфиг Гошана 👀', true);
+    const formData = readGoshanFormData();
+    const validation = validateFormData(formData);
+
+    if (!validation.isValid) {
+        setGoshanStatus(validation.errorMessage, true);
         return;
     }
 
-    const newData = parseGoshanJson(newDataRaw, 'Новые данные для обновления Гошана');
-    if (newData.error) {
-        setGoshanStatus(newData.error, true);
-        return;
-    }
-
-    const oldConfig = parseGoshanJson(oldConfigRaw, 'Старый конфиг Гошана');
-    if (oldConfig.error) {
-        setGoshanStatus(oldConfig.error, true);
-        return;
-    }
-
-
-
-    if (!newData.value || typeof newData.value !== 'object' || Array.isArray(newData.value)) {
-        setGoshanStatus('Новые данные должны быть объектом в формате как на изображении сверху.', true);
-        return;
-    }
-
-    if (!oldConfig.value || typeof oldConfig.value !== 'object' || Array.isArray(newData.value)) {
-        setGoshanStatus('Старый конфиг должен быть полностью скопирован из Гошана', true);
-        return;
-    } else if (!(Object.hasOwn(oldConfig.value, 'params'))) {
-        setGoshanStatus("Убедитесь, что старый конфиг скопирован полностью: не хватает поля params", true);
-        return;
-    } else if (!Object.hasOwn(oldConfig.value.params, 'default')) {
-        setGoshanStatus("Убедитесь, что старый конфиг скопирован полностью: не хватает поля default внутри params", true);
-        return;
-    }
-
-    const slugs = slugsRaw.split(/\s+/).filter(Boolean);
-    const config = oldConfig.value;
+    const {slugs, oldConfig, newData} = validation.data;
     const updated = [];
     const added = [];
 
     // Конфиг-объект: слаг курса — это ключ верхнего уровня
-    const params = config['params'];
-    
+    const params = oldConfig['params'];
+
     slugs.forEach((slug) => {
         const existing = params[slug];
         const isObject = existing && typeof existing === 'object' && !Array.isArray(existing);
@@ -671,11 +763,11 @@ function updateGoshan() {
         }
 
         params[slug] = isObject
-            ? Object.assign({}, existing, newData.value)
-            : Object.assign({}, newData.value);
+            ? Object.assign({}, existing, newData)
+            : Object.assign({}, newData);
     });
 
-    newConfigField.value = JSON.stringify(config, null, 4);
+    newConfigField.value = JSON.stringify(oldConfig, null, 4);
 
     const report = [`Готово, Гошан обновлён для ${slugs.length} курс(ов).`];
     if (updated.length) {
@@ -684,7 +776,7 @@ function updateGoshan() {
     if (added.length) {
         report.push(`\nДобавлены:\n${added.join('\n')}`);
     }
-    report.push('\nЗабирай новый конфиг справа.');
+    report.push('\nЗабирай новый конфиг внизу справа.');
     setGoshanStatus(report.join('\n'));
 }
 
