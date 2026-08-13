@@ -4,6 +4,7 @@ function hideAllSections() {
     document.getElementById('review-status-fields').classList.add('hidden');
     document.getElementById('characters-fields').classList.add('hidden');
     document.getElementById('test-results-fields').classList.add('hidden');
+    document.getElementById('goshan-fields').classList.add('hidden');
 }
 
 function showAssessmentFields() {
@@ -14,6 +15,11 @@ function showAssessmentFields() {
 function showPopupFields() {
     hideAllSections();
     document.getElementById('popup-fields').classList.remove('hidden');
+}
+
+function showGoshanFields() {
+    hideAllSections();
+    document.getElementById('goshan-fields').classList.remove('hidden');
 }
 
 function showReviewStatusFields() {
@@ -35,6 +41,63 @@ function transformCourseSlug(slug) {
     return slug.split('-').map((word, index) => {
         return index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1);
     }).join('');
+}
+
+function updateGoshan() {
+
+    const formData = {
+        updateData: document.getElementById('goshan-new-data').value,
+        slugs: document.getElementById('course-slugs').value,
+        currentConfig: document.getElementById('goshan-old-config').value
+    }
+
+    const validation = validateFields(formData);
+
+    if (!validation.isValid) {
+        const errorMessage = Object.values(validation.errors).join("\n");
+        showErrors(errorMessage);
+        return;
+    }
+
+
+
+}
+
+function validateFields(data) {
+    const errors = {};
+
+    const updateDataError = validateGoshanNewData(data.updateData);
+    const slugsError = validateSlugs(data.slugs);
+    const currentConfigError = validateCurrentConfig(data.currentConfig);
+
+    if (updateDataError) errors.updateData = updateDataError;
+    if (slugsError) errors.slugs = slugsError;
+    if (currentConfigError) errors.currentConfig = currentConfigError;
+
+    return {
+        isValid: Object.keys(errors).length === 0,
+        errors
+    }
+    
+}
+
+function validateGoshanNewData(updateData) {
+    if (!updateData) return "Поле с данными для обновления не может быть пустым";
+    return null;
+}
+
+function validateSlugs(slugs) {
+    if (!slugs) return "Поле Слаги не может быть пустым";
+    return null;
+}
+
+function validateCurrentConfig(currentConfig) {
+    if (!currentConfig) return "Поле Текущий конфиг Гошана не может быть пустым";
+    return null;
+}
+
+function showErrors(error) {
+    document.getElementById("goshan-update-info").value = error;
 }
 
 // Генерация ключей для Попапа
