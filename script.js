@@ -48,62 +48,6 @@ function transformCourseSlug(slug) {
     }).join('');
 }
 
-function updateGoshan() {
-
-    const formData = {
-        updateData: document.getElementById('goshan-new-data').value,
-        slugs: document.getElementById('course-slugs').value,
-        currentConfig: document.getElementById('goshan-old-config').value
-    }
-
-    const validation = validateFields(formData);
-
-    if (!validation.isValid) {
-        const errorMessage = Object.values(validation.errors).join("\n");
-        showErrors(errorMessage);
-        return;
-    }
-
-
-
-}
-
-function validateFields(data) {
-    const errors = {};
-
-    const updateDataError = validateGoshanNewData(data.updateData);
-    const slugsError = validateSlugs(data.slugs);
-    const currentConfigError = validateCurrentConfig(data.currentConfig);
-
-    if (updateDataError) errors.updateData = updateDataError;
-    if (slugsError) errors.slugs = slugsError;
-    if (currentConfigError) errors.currentConfig = currentConfigError;
-
-    return {
-        isValid: Object.keys(errors).length === 0,
-        errors
-    }
-    
-}
-
-function validateGoshanNewData(updateData) {
-    if (!updateData) return "Поле с данными для обновления не может быть пустым";
-    return null;
-}
-
-function validateSlugs(slugs) {
-    if (!slugs) return "Поле Слаги не может быть пустым";
-    return null;
-}
-
-function validateCurrentConfig(currentConfig) {
-    if (!currentConfig) return "Поле Текущий конфиг Гошана не может быть пустым";
-    return null;
-}
-
-function showErrors(error) {
-    document.getElementById("goshan-update-info").value = error;
-}
 
 // Генерация ключей для Попапа
 function generatePopupKeys() {
@@ -690,13 +634,21 @@ function updateGoshan() {
         return;
     }
 
+
+
     if (!newData.value || typeof newData.value !== 'object' || Array.isArray(newData.value)) {
         setGoshanStatus('Новые данные должны быть объектом в формате как на изображении сверху.', true);
         return;
     }
 
-    if (!oldConfig.value || typeof oldConfig.value !== 'object') {
-        setGoshanStatus('Старый конфиг должен быть объектом или массивом.', true);
+    if (!oldConfig.value || typeof oldConfig.value !== 'object' || Array.isArray(newData.value)) {
+        setGoshanStatus('Старый конфиг должен быть полностью скопирован из Гошана', true);
+        return;
+    } else if (!(Object.hasOwn(oldConfig.value, 'params'))) {
+        setGoshanStatus("Убедитесь, что старый конфиг скопирован полностью: не хватает поля params", true);
+        return;
+    } else if (!Object.hasOwn(oldConfig.value.params, 'default')) {
+        setGoshanStatus("Убедитесь, что старый конфиг скопирован полностью: не хватает поля default внутри params", true);
         return;
     }
 
@@ -705,49 +657,35 @@ function updateGoshan() {
     const updated = [];
     const added = [];
 
-    if (Array.isArray(config)) {
-        // Конфиг-массив: ищем запись курса по slug / courseSlug / course
-        slugs.forEach((slug) => {
-            const index = config.findIndex((item) => item && typeof item === 'object' &&
-                (item.slug === slug || item.courseSlug === slug || item.course === slug));
+    // Конфиг-объект: слаг курса — это ключ верхнего уровня
+    const params = config['params'];
+    
+    slugs.forEach((slug) => {
+        const existing = params[slug];
+        const isObject = existing && typeof existing === 'object' && !Array.isArray(existing);
 
-            if (index === -1) {
-                config.push(Object.assign({ slug: slug }, newData.value));
-                added.push(slug);
-            } else {
-                config[index] = Object.assign({}, config[index], newData.value);
-                updated.push(slug);
-            }
-        });
-    } else {
-        // Конфиг-объект: слаг курса — это ключ верхнего уровня
-        slugs.forEach((slug) => {
-            const existing = config[slug];
-            const isObject = existing && typeof existing === 'object' && !Array.isArray(existing);
+        if (Object.prototype.hasOwnProperty.call(params, slug)) {
+            updated.push(slug);
+        } else {
+            added.push(slug);
+        }
 
-            if (Object.prototype.hasOwnProperty.call(config, slug)) {
-                updated.push(slug);
-            } else {
-                added.push(slug);
-            }
-
-            config[slug] = isObject
-                ? Object.assign({}, existing, newData.value)
-                : Object.assign({}, newData.value);
-        });
-    }
+        params[slug] = isObject
+            ? Object.assign({}, existing, newData.value)
+            : Object.assign({}, newData.value);
+    });
 
     newConfigField.value = JSON.stringify(config, null, 4);
 
     const report = [`Готово, Гошан обновлён для ${slugs.length} курс(ов).`];
     if (updated.length) {
-        report.push(`Обновлены: ${updated.join(', ')}.`);
+        report.push(`\nОбновлены:\n${updated.join('\n')}`);
     }
     if (added.length) {
-        report.push(`Добавлены: ${added.join(', ')}.`);
+        report.push(`\nДобавлены:\n${added.join('\n')}`);
     }
-    report.push('Забирай новый конфиг справа.');
-    setGoshanStatus(report.join(' '));
+    report.push('\nЗабирай новый конфиг справа.');
+    setGoshanStatus(report.join('\n'));
 }
 
 function copyToClipboard(text) {
