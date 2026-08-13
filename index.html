@@ -25,7 +25,7 @@
             <button onclick="showReviewStatusFields()">Статусы ревью</button>
             <button onclick="showCharactersFields()">Персонажи</button>
             <button onclick="showTestResultsFields()">Окно с результатами тестов</button>
-            <button onclick="showGoshanFields()">Обновить Гошан</button>
+            <button onclick="showGoshanFields()">Конфиг Гошана</button>
         </div>
 
         <!-- Ассессменты -->
@@ -156,6 +156,39 @@
             <div id="test-results-generated-keys" class="hidden">
                 <div class="keys">
                     <!-- Сгенерированные ключи появятся здесь -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Конфиг Гошана -->
+        <div id="goshan-fields" class="hidden">
+            <div class="goshan-top">
+                <pre class="config-example">{
+    <span class="k">"hasCloseBtn"</span>: <span class="b">true</span>,
+    <span class="k">"showDelayInMinutes"</span>: <span class="n">0.5</span>,
+    <span class="k">"name"</span>: <span class="s">"with-registry-COMAT-8892"</span>,
+    <span class="k">"buttonLinkSrc"</span>: <span class="s">"https://start.practicum.yandex/power_middle?from=practicum.yandex.ru/catalog/"</span>,
+    <span class="k">"imgSrc"</span>: <span class="s">"https://code.s3.yandex.net/Marketing/07.08.26.png"</span>,
+    <span class="k">"hasCustomText"</span>: <span class="b">true</span>
+}</pre>
+
+                <div class="goshan-status-row">
+                    <textarea id="goshan-status" placeholder="Здесь будет информация об ошибках или успехе" readonly></textarea>
+                    <button class="goshan-update-button" onclick="updateGoshan()">Обновить Гошан</button>
+                </div>
+            </div>
+
+            <textarea id="goshan-new-data" class="goshan-code" placeholder="Вставь новые данные для обновления Гошана в формате как на изображении сверху"></textarea>
+            <textarea id="goshan-slugs" placeholder="Вставь слаги курсов через пробел"></textarea>
+
+            <div class="goshan-configs">
+                <div class="goshan-config-col">
+                    <span class="goshan-config-label">Старый конфиг Гошана</span>
+                    <textarea id="goshan-old-config" class="goshan-code" placeholder="Вставь текущий конфиг Гошана"></textarea>
+                </div>
+                <div class="goshan-config-col">
+                    <span class="goshan-config-label">Новый конфиг Гошана</span>
+                    <textarea id="goshan-new-config" class="goshan-code" placeholder="Отсюда заберешь новый конфиг Гошана" readonly></textarea>
                 </div>
             </div>
         </div>
