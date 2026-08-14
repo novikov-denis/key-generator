@@ -1,5 +1,3 @@
-const { jsx } = require("react/jsx-runtime");
-
 function hideAllSections() {
     document.getElementById('assessment-fields').classList.add('hidden');
     document.getElementById('popup-fields').classList.add('hidden');
@@ -22,6 +20,19 @@ function showPopupFields() {
 function showGoshanFields() {
     hideAllSections();
     document.getElementById('goshan-fields').classList.remove('hidden');
+
+    // Подставляем пример конфига, если поле пустое
+    const goshanNewData = document.getElementById('goshan-new-data');
+    if (!goshanNewData.value.trim()) {
+        goshanNewData.value = `{
+    "hasCloseBtn": true,
+    "showDelayInMinutes": 0.5,
+    "name": "with-registry-COMAT-8892",
+    "buttonLinkSrc": "https://start.practicum.yandex/power_middle?from=practicum.yandex.ru/catalog/",
+    "imgSrc": "https://code.s3.yandex.net/Marketing/07.08.26.png",
+    "hasCustomText": true
+}`;
+    }
 }
 
 function showReviewStatusFields() {
@@ -37,11 +48,6 @@ function showCharactersFields() {
 function showTestResultsFields() {
     hideAllSections();
     document.getElementById('test-results-fields').classList.remove('hidden');
-}
-
-function showGoshanFields() {
-    hideAllSections();
-    document.getElementById('goshan-fields').classList.remove('hidden');
 }
 
 function transformCourseSlug(slug) {
@@ -837,4 +843,14 @@ function generateDescription(index, courseSlug, moduleName, moduleIndex) {
         default:
             return '';
     }
+}
+
+function copyGoshanConfig() {
+    const configText = document.getElementById('goshan-new-config').value;
+    if (!configText) {
+        showNotification('Конфиг пуст 👀', true);
+        return;
+    }
+    copyToClipboard(configText);
+    showNotification('Конфиг скопирован в буфер обмена');
 }

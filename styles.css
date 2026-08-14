@@ -286,7 +286,7 @@ body {
 
 .goshan-status-row {
     display: flex;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 10px;
     flex: 1 1 420px;
     max-width: 700px;
@@ -296,7 +296,7 @@ body {
     flex: 1 1 auto;
     width: auto;
     margin: 0;
-    min-height: 70px;
+    min-height: 250px;
     resize: vertical;
 }
 
@@ -314,12 +314,14 @@ body {
     flex: 0 0 auto;
     background-color: #42A663;
     color: white;
-    padding: 12px 24px;
+    padding: 10px 18px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-family: 'YS Text', Arial, sans-serif;
+    font-size: 13px;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    height: fit-content;
 }
 
 .goshan-update-button:hover {
@@ -328,7 +330,7 @@ body {
 }
 
 #goshan-fields #goshan-new-data {
-    min-height: 110px;
+    min-height: 170px;
 }
 
 #goshan-fields #goshan-slugs {
@@ -358,6 +360,34 @@ body {
     color: black;
     padding: 10px;
     border-radius: 5px;
+}
+
+.goshan-config-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.goshan-copy-config-button {
+    background-color: #42A663;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'YS Text', Arial, sans-serif;
+    font-size: 13px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    height: fit-content;
+}
+
+.goshan-copy-config-button:hover {
+    background-color: #369655;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #goshan-fields .goshan-config-col textarea {
