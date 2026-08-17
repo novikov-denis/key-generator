@@ -79,6 +79,11 @@ function generatePopupKeys() {
         { key: `commonGreetingPopup.${courseSlug}.mainButton`, text: 'Кнопка действия' }
     ];
 
+    
+    copyToClipboard(`commonGreetingPopup.${courseSlug}.`);
+    showNotification('Текст успешно скопирован в буфер обмена');
+
+
     popupKeys.forEach(({ key, text }) => {
         const keyRow = document.createElement('div');
         keyRow.classList.add('key-row');
