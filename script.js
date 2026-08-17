@@ -668,14 +668,22 @@ function validateNewData(newData) {
                 isValid: false,
                 error: `Поле ${field} должно быть в обновляемых данных`
             }
-        } 
+        }
+    }
+
+    for (const field in newData) {
+        if (!arrayOfFields.includes(field)) {
+            return {
+                isValid: false,
+                error: `Поле ${field} лишнее. Его надо удалить`
+            }
+        }
     }
 
     return {
         isValid: true
     }
 
-    
 }
 
 function validateFormData(formdata) {
